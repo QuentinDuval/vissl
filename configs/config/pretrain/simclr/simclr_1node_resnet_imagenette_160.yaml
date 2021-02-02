@@ -76,8 +76,8 @@ config:
       weight_decay: 0.000001
       momentum: 0.9
       nesterov: False
-      num_epochs: 100
-      # num_epochs: 200
+      # num_epochs: 100
+      num_epochs: 200
       # num_epochs: 400
       # num_epochs: 500
       # num_epochs: 600
@@ -104,8 +104,8 @@ config:
               end_value: 0.0000
           update_interval: step
           interval_scaling: [rescaled, fixed]
-          lengths: [0.1, 0.9]                 # 100ep
-          # lengths: [0.05, 0.95]             # 200ep
+          # lengths: [0.1, 0.9]                 # 100ep
+          lengths: [0.05, 0.95]             # 200ep
           # lengths: [0.025, 0.975]           # 400ep
           # lengths: [0.02, 0.98]             # 500ep
           # lengths: [0.0166667, 0.9833333]   # 600ep
