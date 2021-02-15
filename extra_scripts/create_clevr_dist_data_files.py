@@ -1,10 +1,12 @@
 import argparse
+import bisect
 import json
 import os
 import shutil
 
-from tqdm import tqdm
+import numpy as np
 from torchvision.datasets.utils import download_and_extract_archive
+from tqdm import tqdm
 
 
 def download_dataset(root: str):
@@ -15,38 +17,31 @@ def download_dataset(root: str):
     download_and_extract_archive(url=URL, download_root=root)
 
 
-def create_clevr_count_disk_folder(input_path: str, output_path: str):
-    train_targets = set()
+def create_clevr_distance_disk_folder(input_path: str, output_path: str):
+    thresholds = np.array([8.0, 8.5, 9.0, 9.5, 10.0, 100.0])
+    target_labels = [f"below_{threshold}" for threshold in thresholds]
+
     for split in ("train", "val"):
         print(f"Processing the {split} split...")
 
+        # Create the directories for each target
+        for target in target_labels:
+            os.makedirs(os.path.join(output_path, split, target), exist_ok=True)
+
         # Read the scene description, holding all object information
-        input_image_path = os.path.join(input_path, "images", split)
-        output_image_path = os.path.join(output_path, split)
         scenes_path = os.path.join(input_path, "scenes", f"CLEVR_{split}_scenes.json")
         with open(scenes_path) as f:
             scenes = json.load(f)["scenes"]
-        image_names = [scene["image_filename"] for scene in scenes]
-        targets = [len(scene["objects"]) for scene in scenes]
-
-        # Make sure that the categories in the train and validation sets are the same
-        if split == "train":
-            train_targets = set(targets)
-            print("Number of classes:", len(train_targets))
-        else:
-            valid_indices = set(i for i in range(len(image_names)) if targets[i] in train_targets)
-            image_names = [image_name for i, image_name in enumerate(image_names) if i in valid_indices]
-            targets = [target for i, target in enumerate(targets) if i in valid_indices]
-
-        # Create the directories for each target
-        for target in train_targets:
-            os.makedirs(os.path.join(output_image_path, f"count_{target}"), exist_ok=True)
 
         # Move the images in their appropriate folder (one folder by target)
-        for image_name, target in tqdm(zip(image_names, targets), total=len(targets)):
+        for scene in tqdm(scenes):
+            image_name = scene["image_filename"]
+            distance = min(object["pixel_coords"][2] for object in scene["objects"])
+            target_id = bisect.bisect_left(thresholds, distance)
+            target = target_labels[target_id]
             shutil.copy(
-                src=os.path.join(input_image_path, image_name),
-                dst=os.path.join(output_path, split, f"count_{target}", image_name)
+                src=os.path.join(input_path, "images", split, image_name),
+                dst=os.path.join(output_path, split, target, image_name)
             )
 
 
@@ -78,11 +73,11 @@ if __name__ == '__main__':
     Example usage:
 
     ```
-    python extra_scripts/create_clevr_count_data_files.py -i /path/to/CLEVR_v1.0/ -o /output_path/clevr_count
+    python extra_scripts/create_clevr_dist_data_files.py -i /path/to/CLEVR_v1.0/ -o /output_path/clevr_dist
     ```
     """
     args = get_argument_parser().parse_args()
     if args.download:
         download_dataset(args.input)
     input_path = os.path.join(args.input, "CLEVR_v1.0")
-    create_clevr_count_disk_folder(input_path=input_path, output_path=args.output)
+    create_clevr_distance_disk_folder(input_path=input_path, output_path=args.output)
