@@ -31,7 +31,7 @@ def create_parser():
         action="store_const",
         const=True,
         default=False,
-        help="Whether or not to download the original dataset and decompress it in the input folder",
+        help="To download the original dataset and decompress it in the input folder",
     )
     parser.add_argument(
         '-w',

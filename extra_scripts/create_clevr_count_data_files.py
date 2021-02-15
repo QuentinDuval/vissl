@@ -4,6 +4,16 @@ import os
 import shutil
 
 from tqdm import tqdm
+from torchvision.datasets.utils import download_and_extract_archive
+
+
+def download_dataset(root: str) -> str:
+    """
+    Download the CLEVR dataset archive and expand it in the folder provided as parameter
+    """
+    URL = "https://dl.fbaipublicfiles.com/clevr/CLEVR_v1.0.zip"
+    download_and_extract_archive(url=URL, download_root=root)
+    return os.path.join(root, "CLEVR_v1.0")
 
 
 def create_clevr_count_disk_folder(input_path: str, output_path: str):
@@ -43,8 +53,24 @@ def create_clevr_count_disk_folder(input_path: str, output_path: str):
 
 def get_argument_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--input', type=str, help="Path to the folder containing the original CLEVR dataset")
-    parser.add_argument('-o', '--output', type=str, help="Folder where the classification dataset will be written")
+    parser.add_argument(
+        '-i',
+        '--input',
+        type=str,
+        help="Path to the folder containing the original CLEVR dataset")
+    parser.add_argument(
+        '-o',
+        '--output',
+        type=str,
+        help="Folder where the classification dataset will be written")
+    parser.add_argument(
+        "-d",
+        "--download",
+        action="store_const",
+        const=True,
+        default=False,
+        help="To download the original dataset and decompress it in the input folder",
+    )
     return parser
 
 
@@ -57,4 +83,8 @@ if __name__ == '__main__':
     ```
     """
     args = get_argument_parser().parse_args()
-    create_clevr_count_disk_folder(input_path=args.input, output_path=args.output)
+    if args.download:
+        input_path = download_dataset(args.input)
+    else:
+        input_path = args.input
+    create_clevr_count_disk_folder(input_path=input_path, output_path=args.output)
