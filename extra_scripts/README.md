@@ -11,53 +11,101 @@ VISSL supports benchmarks inspired by the [VTAB](https://arxiv.org/pdf/1910.0486
 To run these benchmarks, the following data preparation scripts are mandatory:
 
 - `create_clevr_count_data_files.py`: to create a dataset from [CLEVR](https://arxiv.org/abs/1612.06890) where the goal is to count the number of object in the scene
+- `create_clevr_dist_data_files.py`: to create a dataset from [CLEVR](https://arxiv.org/abs/1612.06890) where the goal is to estimate the distance to the closest object in the scene
+- `create_euro_sat_data_files.py`: to transform the [EUROSAT](https://github.com/phelber/eurosat) dataset to the `disk_folder` format
+- `create_food101_data_files.py`: to transform the [FOOD101](https://data.vision.ee.ethz.ch/cvl/datasets_extra/food-101) dataset to the `disk_folder` format
+- `create_patch_camelyon_data_files.py`: to transform the [PatchCamelyon](https://github.com/basveeling/pcam) dataset to the `disk_folder` format
+- `create_svhn_data_files.py`: to transform the [SVHN](http://ufldl.stanford.edu/housenumbers) dataset to the `disk_folder` format
 - `create_ucf101_data_files.py`: to create an image action recognition dataset from the video action recognition dataset [UCF101](https://www.crcv.ucf.edu/data/UCF101.php) by extracting the middle frame
+
+### Unified data preparation interface
+
+All of these scripts follow the same easy to use interface:
+
+```
+python create_[***]_data_files.py -i /path/to/input_datset -o /path/to/tranformed/dataset -d
+```
+
+- `-i` gives the path to the official dataset format
+- `-o` gives the path to the output transformed dataset (the one to feed to VISSL)
+- `-d` (optional) automatically downloads the dataset in the input path
+
+The following sections will describe each of these data preparation scripts in detail.
 
 ### Preparing CLEVR/Counts data files
 
-Download the full dataset by visiting [Stanford CLEVR website](https://cs.stanford.edu/people/jcjohns/clevr/) and clicking on [Download CLEVR v1.0 (18 GB)](https://dl.fbaipublicfiles.com/clevr/CLEVR_v1.0.zip) dataset.
+#### Automatic download
+
+Run the `create_clevr_count_data_files.py` script with the `-d` option as follows:
+
+```bash
+python extra_scripts/create_clevr_count_data_files.py \
+    -i /path/to/clevr/ \
+    -o /output_path/to/clevr_count
+    -d
+```
+
+The folder `/output_path/clevr_count` now contains the CLEVR/Counts dataset.
+The last step is to set this path in `dataset_catalog.json` and you are good to go:
+
+```
+"clevr_count_folder": {
+    "train": ["/output_path/to/clevr_count/train", "<lbl_path>"],
+    "val": ["/output_path/to/clevr_count/val", "<lbl_path>"]
+}
+```
+
+#### Manual download
+
+Download the full dataset by visiting [CLEVR website](https://cs.stanford.edu/people/jcjohns/clevr/) and clicking on [Download CLEVR v1.0 (18 GB)](https://dl.fbaipublicfiles.com/clevr/CLEVR_v1.0.zip) dataset.
 Expand the archive.
 
 The resulting folder should have the following structure:
 
 ```bash
-CLEVR_v1.0/
-    COPYRIGHT.txt 
-    LICENSE.txt
-    README.txt 
-    images/
-        train/
-            ... 75000 images ...
-        val/
-            ... 15000 images ...
-        test/
-            ... 15000 images ...
-    questions/
-        CLEVR_test_questions.json
-        CLEVR_train_questions.json
-        CLEVR_val_questions.json
-    scenes/
-        CLEVR_train_scenes.json
-        CLEVR_val_scenes.json
+/path/to/clevr/
+    CLEVR_v1.0/
+        COPYRIGHT.txt 
+        LICENSE.txt
+        README.txt 
+        images/
+            train/
+                ... 75000 images ...
+            val/
+                ... 15000 images ...
+            test/
+                ... 15000 images ...
+        questions/
+            CLEVR_test_questions.json
+            CLEVR_train_questions.json
+            CLEVR_val_questions.json
+        scenes/
+            CLEVR_train_scenes.json
+            CLEVR_val_scenes.json
 ```
 
-Run the script (where `/path/to/CLEVR_v1.0/` is the path to the expanded archive):
+Run the script where `/path/to/clevr/` is the path of the folder containing the `CLEVR_v1.0` folder:
 
 ```bash
 python extra_scripts/create_clevr_count_data_files.py \
-    -i /path/to/CLEVR_v1.0/ \
-    -o /output_path/clevr_count
+    -i /path/to/clevr/ \
+    -o /output_path/to/clevr_count
 ```
 
-The folder `/output_path/clevr_count` now contains the CLEVR/Counts dataset. The last step is to set this path in `dataset_catalog.json` and you are good to go:
+The folder `/output_path/clevr_count` now contains the CLEVR/Counts dataset.
+
+### Preparing CLEVR/Dist data files
+
+Follow the exact same steps as for the preparation of the CLEVR/Count dataset described above, but use `create_clevr_dist_data_files.py` instead of `create_clevr_count_data_files.py`.
+
+Once the dataset is prepared and available at `/path/to/clevr_dist`, the last step is to set this path in `dataset_catalog.json` and you are good to go:
 
 ```
 "clevr_count_folder": {
-    "train": ["/checkpoint/qduval/datasets/clevr_count/train", "<lbl_path>"],
-    "val": ["/checkpoint/qduval/datasets/clevr_count/val", "<lbl_path>"]
+    "train": ["/output_path/to/clevr_dist/train", "<lbl_path>"],
+    "val": ["/output_path/to/clevr_dist/val", "<lbl_path>"]
 }
 ```
-
 
 ### Preparing UCF101/image data files
 
@@ -92,22 +140,22 @@ Run the following commands (where `/path/to/ucf101` is the path of the folder ab
 python extra_scripts/create_ucf101_data_files.py \
     -d /path/to/ucf101/data \
     -a /path/to/ucf101/ucfTrainTestlist/trainlist01.txt \
-    -o /output_path/ucf101/train
+    -o /output_path/to/ucf101/train
 
 # To create the test split
 
 python extra_scripts/create_ucf101_data_files.py \
     -d /path/to/ucf101/data \
     -a /path/to/ucf101/ucfTrainTestlist/testlist01.txt \
-    -o /output_path/ucf101/test
+    -o /output_path/to/ucf101/test
 ```
 
 The folder `/output_path/ucf101` now contains the UCF101 image action recognition dataset. The last step is to set this path in `dataset_catalog.json` and you are good to go:
 
 ```
 "ucf101_folder": {
-    "train": ["/checkpoint/qduval/vissl/ucf101/train", "<lbl_path>"],
-    "val": ["/checkpoint/qduval/vissl/ucf101/test", "<lbl_path>"]
+    "train": ["/output_path/to/ucf101/train", "<lbl_path>"],
+    "val": ["/output_path/to/ucf101/test", "<lbl_path>"]
 }
 ```
 
