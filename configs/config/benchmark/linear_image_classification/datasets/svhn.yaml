@@ -5,7 +5,7 @@ config:
     TRAIN:
       DATA_SOURCES: [disk_folder]
       LABEL_SOURCES: [disk_folder]
-      DATASET_NAMES: [svnh_folder]
+      DATASET_NAMES: [svhn_folder]
       BATCHSIZE_PER_REPLICA: 256
       TRANSFORMS:
         - name: ToTensor
@@ -14,11 +14,11 @@ config:
           std: [0.229, 0.224, 0.225]
       MMAP_MODE: True
       COPY_TO_LOCAL_DISK: False
-      COPY_DESTINATION_DIR: /tmp/svnh/
+      COPY_DESTINATION_DIR: /tmp/svhn/
     TEST:
       DATA_SOURCES: [disk_folder]
       LABEL_SOURCES: [disk_folder]
-      DATASET_NAMES: [svnh_folder]
+      DATASET_NAMES: [svhn_folder]
       BATCHSIZE_PER_REPLICA: 256
       TRANSFORMS:
         - name: ToTensor
@@ -27,7 +27,7 @@ config:
           std: [0.229, 0.224, 0.225]
       MMAP_MODE: True
       COPY_TO_LOCAL_DISK: False
-      COPY_DESTINATION_DIR: /tmp/svnh/
+      COPY_DESTINATION_DIR: /tmp/svhn/
   METERS:
     name: accuracy_list_meter
     accuracy_list_meter:

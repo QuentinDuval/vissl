@@ -33,12 +33,12 @@ Out of the box, VISSL supports any dataset following the :code:`disk_folder` for
             f.jpg
             ...
 
-The transformation of most existing dataset to the :code:`disk_folder` should be relatively easy. Same example scripts are provided in the folder `extra_script <https://github.com/facebookresearch/vissl/tree/master/extra_scripts>`_ demonstrating how to perform this transformation:
+The transformation of most existing dataset to the :code:`disk_folder` should be relatively easy. Some example scripts are provided in the folder `extra_script <https://github.com/facebookresearch/vissl/tree/master/extra_scripts>`_ demonstrating how to perform this transformation. For instance:
 
-- `extra_scripts/create_ucf101_data_files.py`: transforms the UCF101 video action classification dataset into a classification dataset by extracting the middle frame of the video as input image
-- `extra_scripts/create_clevr_count_data_files.py`: transforms the CLEVR dataset into a classification dataset in which the goal is to count the number of objects appearing in the image
+- :code:`create_clevr_count_data_files.py`: to create a dataset from `CLEVR <https://arxiv.org/abs/1612.068901>`_ where the goal is to count the number of object in the scene
+- :code:`create_ucf101_data_files.py`: to create an image action recognition dataset from the video action recognition dataset `UCF101 <https://www.crcv.ucf.edu/data/UCF101.php>`_ by extracting the middle frame
 
-You can refer to the documentation available `here <https://github.com/facebookresearch/vissl/blob/master/extra_scripts/README.md>`_ to get more information on these scripts.
+You can refer to the documentation available `here <https://github.com/facebookresearch/vissl/blob/master/extra_scripts/README.md>`_ to get more information all the available data preparation scripts.
 
 Once a dataset is made available at path :code:`/path/to/dataset`, plugging the dataset in the library is a simple two step process:
 

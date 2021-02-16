@@ -220,15 +220,23 @@ The expected format is the exact same format used by torchvision, and the exact 
         unlabeled_X.bin
 
 
-Expected dataset structure for UCF101, CLEVR/Counts
+Expected dataset structure for the other benchmark datasets
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-VISSL supports benchmarks inspired by the `VTAB <https://arxiv.org/pdf/1910.04867.pdf>`_ and `CLIP <https://cdn.openai.com/papers/Learning_Transferable_Visual_Models_From_Natural_Language_Supervision.pdf>`_ papers, for which the datasets do not directly exist but are transformations of existing dataset.
+VISSL supports benchmarks inspired by the `VTAB <https://arxiv.org/pdf/1910.04867.pdf>`_ and `CLIP <https://cdn.openai.com/papers/Learning_Transferable_Visual_Models_From_Natural_Language_Supervision.pdf>`_ papers, for which the datasets either:
+
+- Do not directly exist but are transformations of existing dataset
+- Are not in a format directly compatible with the :code:`disk_folder` format of VISSL
 
 To run these benchmarks, the following data preparation scripts are mandatory:
 
-- `create_clevr_count_data_files.py`: to create a dataset from `CLEVR <https://arxiv.org/abs/1612.068901>`_ where the goal is to count the number of object in the scene
-- `create_ucf101_data_files.py`: to create an image action recognition dataset from the video action recognition dataset `UCF101 <https://www.crcv.ucf.edu/data/UCF101.php>`_ by extracting the middle frame
+- :code:`create_clevr_count_data_files.py`: to create a dataset from `CLEVR <https://arxiv.org/abs/1612.068901>`_ where the goal is to count the number of object in the scene
+- :code:`create_clevr_dist_data_files.py`: to create a dataset from `CLEVR <https://arxiv.org/abs/1612.068901>`_ where the goal is to estimate the distance of the closest object in the scene
+- :code:`create_euro_sat_data_files.py`: to transform the `EUROSAT <https://github.com/phelber/eurosat>`_ dataset in the :code:`disk_folder` format
+- :code:`create_food101_data_files.py`: to transform the `FOOD101 <https://data.vision.ee.ethz.ch/cvl/datasets_extra/food-101>`_ dataset in the :code:`disk_folder` format
+- :code:`create_patch_camelyon_data_files.py`: to transform the `PatchCamelyon <https://github.com/basveeling/pcam>`_ dataset in the :code:`disk_folder` format
+- :code:`create_svhn_data_files.py`: to transform the `SVHN <http://ufldl.stanford.edu/housenumbers>`_ dataset in the :code:`disk_folder` format
+- :code:`create_ucf101_data_files.py`: to create an image action recognition dataset from the video action recognition dataset `UCF101 <https://www.crcv.ucf.edu/data/UCF101.php>`_ by extracting the middle frame
 
 You can read more about how to download these datasets and run these scripts from `here <https://github.com/facebookresearch/vissl/blob/master/extra_scripts/README.md>`_.
 
