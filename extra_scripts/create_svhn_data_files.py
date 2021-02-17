@@ -7,6 +7,34 @@ from PIL import Image
 from torchvision.datasets.utils import download_url
 
 
+def get_argument_parser():
+    """
+    List of arguments supported by the script
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-i",
+        "--input",
+        type=str,
+        help="The input folder contains the Patch Camelyon data files",
+    )
+    parser.add_argument(
+        "-o",
+        "--output",
+        type=str,
+        help="The output folder containing the disk_folder output",
+    )
+    parser.add_argument(
+        "-d",
+        "--download",
+        action="store_const",
+        const=True,
+        default=False,
+        help="To download the original dataset and decompress it in the input folder",
+    )
+    return parser
+
+
 def download_dataset(root: str):
     """
     Download the CLEVR dataset archive and expand it in the folder provided as parameter
@@ -18,6 +46,9 @@ def download_dataset(root: str):
 
 
 def create_svnh_disk_folder_split(dataset, folder: str):
+    """
+    Create one split of the SVHN dataset (ex: "train" or "test")
+    """
     for label in range(1, 11):
         os.makedirs(os.path.join(folder, f"digit_{label}"), exist_ok=True)
 
@@ -32,24 +63,19 @@ def create_svnh_disk_folder_split(dataset, folder: str):
             progress_bar.update(1)
 
 
-def create_svnh_disk_folder(root: str):
+def create_svnh_disk_folder(input_path: str, output_path: str):
     create_svnh_disk_folder_split(
-        dataset=scipy.io.loadmat(os.path.join(root, "train_32x32.mat")),
-        folder=os.path.join(root, "train")
+        dataset=scipy.io.loadmat(os.path.join(input_path, "train_32x32.mat")),
+        folder=os.path.join(output_path, "train")
     )
     create_svnh_disk_folder_split(
-        dataset=scipy.io.loadmat(os.path.join(root, "test_32x32.mat")),
-        folder=os.path.join(root, "test")
+        dataset=scipy.io.loadmat(os.path.join(input_path, "test_32x32.mat")),
+        folder=os.path.join(output_path, "test")
     )
-
-
-def get_argument_parser():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('output', type=str, help='Where the classification dataset will be written')
-    return parser
 
 
 if __name__ == '__main__':
     args = get_argument_parser().parse_args()
-    download_dataset(args.output)
-    create_svnh_disk_folder(args.output)
+    if args.download:
+        download_dataset(args.input)
+    create_svnh_disk_folder(input_path=args.input, output_path=args.output)
