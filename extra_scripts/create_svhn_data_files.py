@@ -16,7 +16,7 @@ def get_argument_parser():
         "-i",
         "--input",
         type=str,
-        help="The input folder contains the Patch Camelyon data files",
+        help="The input folder contains the SVHN data files",
     )
     parser.add_argument(
         "-o",
