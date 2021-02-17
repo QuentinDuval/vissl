@@ -11,7 +11,10 @@ from torchvision.datasets.utils import download_and_extract_archive
 from tqdm import tqdm
 
 
-def create_parser():
+def get_argument_parser():
+    """
+    List of arguments supported by the script
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-i",
@@ -116,7 +119,7 @@ def to_disk_folder(dataset: PatchCamelyon, output_folder: str, num_workers: int)
 
 def create_data_files():
     # Parse command arguments
-    parser = create_parser()
+    parser = get_argument_parser()
     args = parser.parse_args()
     input_folder = os.path.expanduser(args.input)
     output_folder = os.path.expanduser(args.output)
@@ -143,7 +146,7 @@ if __name__ == "__main__":
     python extra_scripts/create_patch_camelyon_data_files.py \
         -i /path/to/pcam \
         -o /output_path/to/pcam \
-        -
+        -d
     ```
     """
     create_data_files()

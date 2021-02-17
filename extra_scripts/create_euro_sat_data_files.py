@@ -10,9 +10,6 @@ from tqdm import tqdm
 
 
 def get_argument_parser():
-    """
-    List of arguments supported by the script
-    """
     parser = argparse.ArgumentParser()
     parser.add_argument(
         '-i',
@@ -43,7 +40,7 @@ def download_dataset(root: str):
     download_and_extract_archive(url=URL, download_root=root)
 
 
-class _EuroSAT(VisionDataset):
+class _EuroSAT:
     """
     Dataset used to parallelize the transformation of the dataset via a DataLoader
     """
@@ -52,13 +49,16 @@ class _EuroSAT(VisionDataset):
     TRAIN_SAMPLES = 1000
     VALID_SAMPLES = 500
 
-    def __init__(self, root: str, train: bool, transform=None, target_transform=None):
-        super().__init__(root=root, transform=transform, target_transform=target_transform)
+    def __init__(self, input_path: str, output_path: str, train: bool):
+        self.input_path = input_path
+        self.output_path = output_path
         self.train = train
-        self.image_folder = os.path.join(root, self.IMAGE_FOLDER)
+        self.image_folder = os.path.join(self.input_path, self.IMAGE_FOLDER)
         self.images = []
         self.targets = []
         self.labels = list(sorted(os.listdir(self.image_folder)))
+
+        # There is no train/val split in the EUROSAT dataset, so we have to create it
         for i, label in enumerate(self.labels):
             label_path = os.path.join(self.image_folder, label)
             files = list(sorted(os.listdir(label_path)))
@@ -72,30 +72,39 @@ class _EuroSAT(VisionDataset):
     def __len__(self):
         return len(self.targets)
 
-    def __getitem__(self, idx: int) -> Tuple[str, str, str]:
+    def __getitem__(self, idx: int) -> bool:
         image_name = self.images[idx]
         target = self.labels[self.targets[idx]]
         image_path = os.path.join(self.image_folder, target, image_name)
-        return image_name, image_path, target
+        split_name = "train" if self.train else "val"
+        shutil.copy(image_path, os.path.join(self.output_path, split_name, target, image_name))
+        return True
 
 
 def create_disk_folder_split(dataset: _EuroSAT, split_path: str):
+    """
+    Create one split (example: "train" or "val") of the disk_folder hierarchy
+    """
     for label in dataset.labels:
         os.makedirs(os.path.join(split_path, label), exist_ok=True)
     loader = DataLoader(dataset, num_workers=8, batch_size=1, collate_fn=lambda x: x[0])
-    for image_name, image_path, target in tqdm(loader):
-        shutil.copy(image_path, os.path.join(split_path, target, image_name))
+    with tqdm(total=len(dataset)) as progress_bar:
+        for _ in loader:
+            progress_bar.update(1)
 
 
 def create_euro_sat_disk_folder(input_path: str, output_path: str):
+    """
+    Read the EUROSAT dataset at 'input_path' and transform it to a disk folder at 'output_path'
+    """
     print("Creating the training split...")
     create_disk_folder_split(
-        dataset=_EuroSAT(input_path, train=True),
+        dataset=_EuroSAT(input_path, output_path=output_path, train=True),
         split_path=os.path.join(output_path, "train")
     )
     print("Creating the validation split...")
     create_disk_folder_split(
-        dataset=_EuroSAT(input_path, train=False),
+        dataset=_EuroSAT(input_path, output_path=output_path, train=False),
         split_path=os.path.join(output_path, "val")
     )
 

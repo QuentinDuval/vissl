@@ -7,6 +7,32 @@ from torchvision.datasets.utils import download_and_extract_archive
 from tqdm import tqdm
 
 
+def get_argument_parser():
+    """
+    List of arguments supported by the script
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '-i',
+        '--input',
+        type=str,
+        help="Path to the folder containing the original FOOD-101 dataset")
+    parser.add_argument(
+        '-o',
+        '--output',
+        type=str,
+        help="Folder where the classification dataset will be written")
+    parser.add_argument(
+        "-d",
+        "--download",
+        action="store_const",
+        const=True,
+        default=False,
+        help="To download the original dataset and decompress it in the input folder",
+    )
+    return parser
+
+
 def download_dataset(root: str):
     """
     Download the FOOD101 dataset archive and expand it in the folder provided as parameter
@@ -45,7 +71,6 @@ class Food101:
 
     def __len__(self):
         return len(self.targets)
-
     def __getitem__(self, idx: int):
         image_path = self.images[idx]
         image_name = os.path.split(image_path)[1]
@@ -66,29 +91,6 @@ def create_food_101_disk_folder(input_path: str, output_path: str):
         with tqdm(total=len(dataset)) as progress_bar:
             for _ in loader:
                 progress_bar.update(1)
-
-
-def get_argument_parser():
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        '-i',
-        '--input',
-        type=str,
-        help="Path to the folder containing the original FOOD-101 dataset")
-    parser.add_argument(
-        '-o',
-        '--output',
-        type=str,
-        help="Folder where the classification dataset will be written")
-    parser.add_argument(
-        "-d",
-        "--download",
-        action="store_const",
-        const=True,
-        default=False,
-        help="To download the original dataset and decompress it in the input folder",
-    )
-    return parser
 
 
 if __name__ == '__main__':
