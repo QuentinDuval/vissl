@@ -235,6 +235,8 @@ To run these benchmarks, the following data preparation scripts are mandatory:
 - :code:`create_euro_sat_data_files.py`: to transform the `EUROSAT <https://github.com/phelber/eurosat>`_ dataset to the :code:`disk_folder` format
 - :code:`create_food101_data_files.py`: to transform the `FOOD101 <https://data.vision.ee.ethz.ch/cvl/datasets_extra/food-101>`_ dataset to the :code:`disk_folder` format
 - :code:`create_patch_camelyon_data_files.py`: to transform the `PatchCamelyon <https://github.com/basveeling/pcam>`_ dataset to the :code:`disk_folder` format
+- :code:`create_small_norb_azimuth_data_files.py` to create a dataset from `Small NORB <https://cs.nyu.edu/~ylclab/data/norb-v1.0-small/>`_ where the goal is to find the azimuth or the photographed object
+- :code:`create_small_norb_elevation_data_files.py` to create a dataset from `Small NORB <https://cs.nyu.edu/~ylclab/data/norb-v1.0-small/>`_ where the goal is to predict the elevation in the image
 - :code:`create_svhn_data_files.py`: to transform the `SVHN <http://ufldl.stanford.edu/housenumbers>`_ dataset to the :code:`disk_folder` format
 - :code:`create_ucf101_data_files.py`: to create an image action recognition dataset from the video action recognition dataset `UCF101 <https://www.crcv.ucf.edu/data/UCF101.php>`_ by extracting the middle frame
 
@@ -244,7 +246,6 @@ After data preparation, the output folders are compatible with the :code:`disk_f
 
 .. code-block:: bash
 
-    {ucf101, clevr_count}
     train/
         <n0......>/
             <im-1-name>.JPEG
