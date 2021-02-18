@@ -230,8 +230,8 @@ VISSL supports benchmarks inspired by the `VTAB <https://arxiv.org/pdf/1910.0486
 
 To run these benchmarks, the following data preparation scripts are mandatory:
 
-- :code:`create_clevr_count_data_files.py`: to create a dataset from `CLEVR <https://arxiv.org/abs/1612.068901>`_ where the goal is to count the number of object in the scene
-- :code:`create_clevr_dist_data_files.py`: to create a dataset from `CLEVR <https://arxiv.org/abs/1612.068901>`_ where the goal is to estimate the distance of the closest object in the scene
+- :code:`create_clevr_count_data_files.py`: to create a dataset from `CLEVR <https://cs.stanford.edu/people/jcjohns/clevr/>`_ where the goal is to count the number of object in the scene
+- :code:`create_clevr_dist_data_files.py`: to create a dataset from `CLEVR <https://cs.stanford.edu/people/jcjohns/clevr/>`_ where the goal is to estimate the distance of the closest object in the scene
 - :code:`create_euro_sat_data_files.py`: to transform the `EUROSAT <https://github.com/phelber/eurosat>`_ dataset to the :code:`disk_folder` format
 - :code:`create_food101_data_files.py`: to transform the `FOOD101 <https://data.vision.ee.ethz.ch/cvl/datasets_extra/food-101>`_ dataset to the :code:`disk_folder` format
 - :code:`create_patch_camelyon_data_files.py`: to transform the `PatchCamelyon <https://github.com/basveeling/pcam>`_ dataset to the :code:`disk_folder` format
