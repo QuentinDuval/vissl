@@ -7,14 +7,18 @@ def import_norb_elevation_module():
     A convoluted way to import 'create_small_norb_elevation_data_files.py' and reuse the code it contains
     """
     script_path = os.path.split(__file__)[0]
-    norb_elevation_path = os.path.join(script_path, "create_small_norb_elevation_data_files.py")
-    spec = importlib.util.spec_from_file_location("create_small_norb_elevation_data_files", norb_elevation_path)
+    norb_elevation_path = os.path.join(
+        script_path, "create_small_norb_elevation_data_files.py"
+    )
+    spec = importlib.util.spec_from_file_location(
+        "create_small_norb_elevation_data_files", norb_elevation_path
+    )
     norb_module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(norb_module)
     return norb_module
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     """
     Example usage:
 
@@ -29,4 +33,5 @@ if __name__ == '__main__':
     norb_module.create_norm_elevation_dataset(
         input_path=args.input,
         output_path=args.output,
-        target_transform=norb_module.parse_azimuth)
+        target_transform=norb_module.parse_azimuth,
+    )

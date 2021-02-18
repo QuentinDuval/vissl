@@ -15,15 +15,17 @@ def get_argument_parser():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '-i',
-        '--input',
+        "-i",
+        "--input",
         type=str,
-        help="Path to the folder containing the original CLEVR_v1.0 dataset")
+        help="Path to the folder containing the original CLEVR_v1.0 dataset",
+    )
     parser.add_argument(
-        '-o',
-        '--output',
+        "-o",
+        "--output",
         type=str,
-        help="Folder where the classification dataset will be written")
+        help="Folder where the classification dataset will be written",
+    )
     parser.add_argument(
         "-d",
         "--download",
@@ -71,11 +73,11 @@ def create_clevr_distance_disk_folder(input_path: str, output_path: str):
             target = target_labels[target_id]
             shutil.copy(
                 src=os.path.join(input_path, "images", split, image_name),
-                dst=os.path.join(output_path, split, target, image_name)
+                dst=os.path.join(output_path, split, target, image_name),
             )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     """
     Example usage:
 

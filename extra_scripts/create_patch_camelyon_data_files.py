@@ -69,7 +69,9 @@ class PatchCamelyon:
         }
     )
 
-    def __init__(self, input_path: str, output_path: str, split: str, download: bool = False):
+    def __init__(
+        self, input_path: str, output_path: str, split: str, download: bool = False
+    ):
         self.input_path = input_path
         self.output_path = output_path
         self.split = split
@@ -105,7 +107,9 @@ def to_disk_folder_split(dataset: PatchCamelyon, output_folder: str, num_workers
     """
     os.makedirs(os.path.join(output_folder, "tumor"), exist_ok=True)
     os.makedirs(os.path.join(output_folder, "no_tumor"), exist_ok=True)
-    loader = DataLoader(dataset, num_workers=num_workers, batch_size=1, collate_fn=lambda x: x[0])
+    loader = DataLoader(
+        dataset, num_workers=num_workers, batch_size=1, collate_fn=lambda x: x[0]
+    )
     with tqdm(total=len(dataset)) as progress_bar:
         for _ in loader:
             progress_bar.update(1)
@@ -123,7 +127,8 @@ def create_data_files(input_path: str, output_path: str, download: bool):
         input_path=input_path,
         output_path=output_train_folder,
         split="train",
-        download=download)
+        download=download,
+    )
     to_disk_folder_split(train_set, output_train_folder, num_workers=8)
 
     # Create the validation split
@@ -132,7 +137,8 @@ def create_data_files(input_path: str, output_path: str, download: bool):
         input_path=input_path,
         output_path=output_valid_folder,
         split="valid",
-        download=False)
+        download=False,
+    )
     to_disk_folder_split(valid_set, output_valid_folder, num_workers=8)
 
 
@@ -146,7 +152,5 @@ if __name__ == "__main__":
     """
     args = get_argument_parser().parse_args()
     create_data_files(
-        input_path=args.input,
-        output_path=args.output,
-        download=args.download
+        input_path=args.input, output_path=args.output, download=args.download
     )

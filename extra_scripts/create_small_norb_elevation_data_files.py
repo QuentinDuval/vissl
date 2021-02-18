@@ -13,15 +13,17 @@ def get_argument_parser():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '-i',
-        '--input',
+        "-i",
+        "--input",
         type=str,
-        help="Path to the folder containing the original small NORM decompressed archives")
+        help="Path to the folder containing the original small NORM decompressed archives",
+    )
     parser.add_argument(
-        '-o',
-        '--output',
+        "-o",
+        "--output",
         type=str,
-        help="Folder where the classification dataset will be written")
+        help="Folder where the classification dataset will be written",
+    )
     parser.add_argument(
         "-d",
         "--download",
@@ -75,16 +77,16 @@ def parse_small_norb_format(raw_content):
         Pay attention when you read the files on machines that use big-endian.
     """
     _DATA_TYPES = {
-        0x1E3D4C51: '<f4',
-        0x1E3D4C53: '<f8',
-        0x1E3D4C54: '<i4',
-        0x1E3D4C55: '<u1',
-        0x1E3D4C56: '<i2',
+        0x1E3D4C51: "<f4",
+        0x1E3D4C53: "<f8",
+        0x1E3D4C54: "<i4",
+        0x1E3D4C55: "<u1",
+        0x1E3D4C56: "<i2",
     }
 
-    dtype_code = np.frombuffer(raw_content, dtype='<i4', count=1)[0]
-    shape_size = np.frombuffer(raw_content, dtype='<i4', count=1, offset=4)[0]
-    shape = tuple(np.frombuffer(raw_content, dtype='<i4', count=shape_size, offset=8))
+    dtype_code = np.frombuffer(raw_content, dtype="<i4", count=1)[0]
+    shape_size = np.frombuffer(raw_content, dtype="<i4", count=1, offset=4)[0]
+    shape = tuple(np.frombuffer(raw_content, dtype="<i4", count=shape_size, offset=8))
     data_offset = max(5, 2 + shape_size) * 4
     data = np.frombuffer(raw_content, dtype=_DATA_TYPES[dtype_code], offset=data_offset)
     return np.reshape(data, shape)
@@ -108,12 +110,14 @@ def parse_azimuth(info: np.ndarray):
     return info[:, 2] * 10
 
 
-def create_disk_folder_split(dat_path: str, info_path: str, output_path: str, target_transform):
+def create_disk_folder_split(
+    dat_path: str, info_path: str, output_path: str, target_transform
+):
     training_images = parse_image_array(read_small_norb_format(dat_path))
     training_target = target_transform(read_small_norb_format(info_path))
     with tqdm(total=training_target.shape[0]) as progress_bar:
         for i in range(training_target.shape[0]):
-            image = Image.fromarray(training_images[i], mode='L').convert(mode="RGB")
+            image = Image.fromarray(training_images[i], mode="L").convert(mode="RGB")
             elevation = str(training_target[i])
             image_folder = os.path.join(output_path, elevation)
             os.makedirs(image_folder, exist_ok=True)
@@ -123,20 +127,28 @@ def create_disk_folder_split(dat_path: str, info_path: str, output_path: str, ta
 
 def create_norm_elevation_dataset(input_path: str, output_path: str, target_transform):
     create_disk_folder_split(
-        dat_path=os.path.join(input_path, "smallnorb-5x46789x9x18x6x2x96x96-training-dat.mat"),
-        info_path=os.path.join(input_path, "smallnorb-5x46789x9x18x6x2x96x96-training-info.mat"),
+        dat_path=os.path.join(
+            input_path, "smallnorb-5x46789x9x18x6x2x96x96-training-dat.mat"
+        ),
+        info_path=os.path.join(
+            input_path, "smallnorb-5x46789x9x18x6x2x96x96-training-info.mat"
+        ),
         output_path=os.path.join(output_path, "train"),
         target_transform=target_transform,
     )
     create_disk_folder_split(
-        dat_path=os.path.join(input_path, "smallnorb-5x01235x9x18x6x2x96x96-testing-dat.mat"),
-        info_path=os.path.join(input_path, "smallnorb-5x01235x9x18x6x2x96x96-testing-info.mat"),
+        dat_path=os.path.join(
+            input_path, "smallnorb-5x01235x9x18x6x2x96x96-testing-dat.mat"
+        ),
+        info_path=os.path.join(
+            input_path, "smallnorb-5x01235x9x18x6x2x96x96-testing-info.mat"
+        ),
         output_path=os.path.join(output_path, "test"),
         target_transform=target_transform,
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     """
     Example usage:
 
@@ -147,4 +159,6 @@ if __name__ == '__main__':
     args = get_argument_parser().parse_args()
     if args.download:
         download_dataset(args.input)
-    create_norm_elevation_dataset(input_path=args.input, output_path=args.output, target_transform=parse_elevation)
+    create_norm_elevation_dataset(
+        input_path=args.input, output_path=args.output, target_transform=parse_elevation
+    )

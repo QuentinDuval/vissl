@@ -1,10 +1,8 @@
 import argparse
 import os
 import shutil
-from typing import Tuple
 
 from torch.utils.data import DataLoader
-from torchvision.datasets import VisionDataset
 from torchvision.datasets.utils import download_and_extract_archive
 from tqdm import tqdm
 
@@ -12,15 +10,17 @@ from tqdm import tqdm
 def get_argument_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '-i',
-        '--input',
+        "-i",
+        "--input",
         type=str,
-        help="Path to the folder containing expanded EuroSAT.zip archive")
+        help="Path to the folder containing expanded EuroSAT.zip archive",
+    )
     parser.add_argument(
-        '-o',
-        '--output',
+        "-o",
+        "--output",
         type=str,
-        help="Folder where the classification dataset will be written")
+        help="Folder where the classification dataset will be written",
+    )
     parser.add_argument(
         "-d",
         "--download",
@@ -63,10 +63,12 @@ class _EuroSAT:
             label_path = os.path.join(self.image_folder, label)
             files = list(sorted(os.listdir(label_path)))
             if train:
-                self.images.extend(files[:self.TRAIN_SAMPLES])
+                self.images.extend(files[: self.TRAIN_SAMPLES])
                 self.targets.extend([i] * self.TRAIN_SAMPLES)
             else:
-                self.images.extend(files[self.TRAIN_SAMPLES:self.TRAIN_SAMPLES + self.VALID_SAMPLES])
+                self.images.extend(
+                    files[self.TRAIN_SAMPLES : self.TRAIN_SAMPLES + self.VALID_SAMPLES]
+                )
                 self.targets.extend([i] * self.VALID_SAMPLES)
 
     def __len__(self):
@@ -77,7 +79,9 @@ class _EuroSAT:
         target = self.labels[self.targets[idx]]
         image_path = os.path.join(self.image_folder, target, image_name)
         split_name = "train" if self.train else "val"
-        shutil.copy(image_path, os.path.join(self.output_path, split_name, target, image_name))
+        shutil.copy(
+            image_path, os.path.join(self.output_path, split_name, target, image_name)
+        )
         return True
 
 
@@ -100,16 +104,16 @@ def create_euro_sat_disk_folder(input_path: str, output_path: str):
     print("Creating the training split...")
     create_disk_folder_split(
         dataset=_EuroSAT(input_path, output_path=output_path, train=True),
-        split_path=os.path.join(output_path, "train")
+        split_path=os.path.join(output_path, "train"),
     )
     print("Creating the validation split...")
     create_disk_folder_split(
         dataset=_EuroSAT(input_path, output_path=output_path, train=False),
-        split_path=os.path.join(output_path, "val")
+        split_path=os.path.join(output_path, "val"),
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     """
     Example usage:
 

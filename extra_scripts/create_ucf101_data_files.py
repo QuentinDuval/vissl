@@ -1,14 +1,15 @@
 import argparse
 import os
+import ssl
 from contextlib import contextmanager
-from typing import Optional, List, Tuple
+from typing import List, Optional, Tuple
 
 from PIL import Image
+from pyunpack import Archive
 from torch.utils.data import DataLoader
 from torchvision.datasets.utils import download_url, extract_archive
 from tqdm import tqdm
-from pyunpack import Archive
-import ssl
+
 
 try:
     import av
@@ -57,7 +58,9 @@ def download_dataset(root: str):
     Download the UCF101 dataset archive and expand it in the folder provided as parameter
     """
     IMAGE_URL = "https://www.crcv.ucf.edu/data/UCF101/UCF101.rar"
-    SPLIT_URL = "https://www.crcv.ucf.edu/data/UCF101/UCF101TrainTestSplits-RecognitionTask.zip"
+    SPLIT_URL = (
+        "https://www.crcv.ucf.edu/data/UCF101/UCF101TrainTestSplits-RecognitionTask.zip"
+    )
 
     # Download the raw inputs of UCF101, circumventing the SSL certificate issues
     with without_ssl_certificate_check():
@@ -118,10 +121,14 @@ def create_disk_folder_split(annotation_path: str, data_path: str, output_path: 
     Create one split of the disk_folder format from the file at 'annotation_path' and the data stored
     in the folder 'data_path'.
     """
-    assert os.path.exists(annotation_path), f"Could not find annotation path {annotation_path}"
+    assert os.path.exists(
+        annotation_path
+    ), f"Could not find annotation path {annotation_path}"
     assert os.path.exists(data_path), f"Could not find data folder {data_path}"
 
-    dataset = _ExtractMiddleFrameDataset(data_path=data_path, annotation_path=annotation_path)
+    dataset = _ExtractMiddleFrameDataset(
+        data_path=data_path, annotation_path=annotation_path
+    )
     loader = DataLoader(dataset, num_workers=8, batch_size=1, collate_fn=lambda x: x[0])
     for batch in tqdm(loader):
         mid_frame, image_name, category = batch
@@ -132,7 +139,7 @@ def create_disk_folder_split(annotation_path: str, data_path: str, output_path: 
             mid_frame.save(image_file)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     """
     Example usage:
 

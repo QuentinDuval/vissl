@@ -2,9 +2,9 @@ import argparse
 import os
 
 import scipy.io
-from tqdm import tqdm
 from PIL import Image
 from torchvision.datasets.utils import download_url
+from tqdm import tqdm
 
 
 def get_argument_parser():
@@ -13,10 +13,7 @@ def get_argument_parser():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-i",
-        "--input",
-        type=str,
-        help="The input folder contains the SVHN data files",
+        "-i", "--input", type=str, help="The input folder contains the SVHN data files",
     )
     parser.add_argument(
         "-o",
@@ -52,8 +49,8 @@ def create_svnh_disk_folder_split(dataset, folder: str):
     for label in range(1, 11):
         os.makedirs(os.path.join(folder, f"digit_{label}"), exist_ok=True)
 
-    images = dataset['X']
-    targets = dataset['y']
+    images = dataset["X"]
+    targets = dataset["y"]
     nb_sample = targets.shape[0]
     with tqdm(total=nb_sample) as progress_bar:
         for i in range(nb_sample):
@@ -66,15 +63,15 @@ def create_svnh_disk_folder_split(dataset, folder: str):
 def create_svnh_disk_folder(input_path: str, output_path: str):
     create_svnh_disk_folder_split(
         dataset=scipy.io.loadmat(os.path.join(input_path, "train_32x32.mat")),
-        folder=os.path.join(output_path, "train")
+        folder=os.path.join(output_path, "train"),
     )
     create_svnh_disk_folder_split(
         dataset=scipy.io.loadmat(os.path.join(input_path, "test_32x32.mat")),
-        folder=os.path.join(output_path, "test")
+        folder=os.path.join(output_path, "test"),
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     args = get_argument_parser().parse_args()
     if args.download:
         download_dataset(args.input)
