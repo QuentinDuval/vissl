@@ -168,6 +168,47 @@ is provided `here <https://github.com/facebookresearch/vissl/tree/master/configs
       config.MODEL.WEIGHTS_INIT.PARAMS_FILE=<my_weights.torch>
 
 
+Benchmark: FOOD-101
+-----------------------
+
+The configuration setting for this benchmark
+is provided `here <https://github.com/facebookresearch/vissl/tree/master/configs/config/benchmark/linear_image_classification/food101>`_ .
+
+.. code-block:: bash
+
+    python tools/run_distributed_engines.py \
+      config=benchmark/linear_image_classification/food101/eval_resnet_8gpu_transfer_food101_linear \
+      config.MODEL.WEIGHTS_INIT.PARAMS_FILE=<my_weights.torch>
+
+A script to automatically prepare the data for FOOD-101 is available `here <https://github.com/facebookresearch/vissl/tree/master/extra_scripts>`_.
+
+
+Benchmark: CLEVR
+-------------------
+
+The CLEVR benchmarks evaluate the understanding of the structure of a 3D scene by:
+
+- CLEVR/Count: counting then number of objects in the scene
+- CLEVR/Dist: estimating the distance to the closest object in the scene
+
+The configuration setting for these benchmarks
+is provided `here <https://github.com/facebookresearch/vissl/tree/master/configs/config/benchmark/linear_image_classification/clever_count>`_ and `here <https://github.com/facebookresearch/vissl/tree/master/configs/config/benchmark/linear_image_classification/clevr_dist>`_.
+
+.. code-block:: bash
+
+    # For CLEVR Count
+    python tools/run_distributed_engines.py \
+      config=benchmark/linear_image_classification/clevr_count/eval_resnet_8gpu_transfer_clevr_count_linear \
+      config.MODEL.WEIGHTS_INIT.PARAMS_FILE=<my_weights.torch>
+
+    # For CLEVR Dist
+    python tools/run_distributed_engines.py \
+      config=benchmark/linear_image_classification/clevr_dist/eval_resnet_8gpu_transfer_clevr_dist_linear \
+      config.MODEL.WEIGHTS_INIT.PARAMS_FILE=<my_weights.torch>
+
+Scripts to automatically prepare the data for the CLEVR benchmarks is available `here <https://github.com/facebookresearch/vissl/tree/master/extra_scripts>`_.
+
+
 Benchmark: Linear SVM on VOC07
 ---------------------------------
 
