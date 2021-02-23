@@ -226,12 +226,15 @@ Expected dataset structure for the other benchmark datasets
 VISSL supports benchmarks inspired by the `VTAB <https://arxiv.org/pdf/1910.04867.pdf>`_ and `CLIP <https://cdn.openai.com/papers/Learning_Transferable_Visual_Models_From_Natural_Language_Supervision.pdf>`_ papers, for which the datasets either:
 
 - Do not directly exist but are transformations of existing dataset
-- Are not in a format directly compatible with the :code:`disk_folder` format of VISSL
+- Are not in a format compatible with the :code:`disk_folder` format of VISSL
+- And are not yet part of `torchvision <https://pytorch.org/vision/stable/datasets.html>`_ datasets
 
 To run these benchmarks, the following data preparation scripts are mandatory:
 
 - :code:`create_clevr_count_data_files.py`: to create a dataset from `CLEVR <https://cs.stanford.edu/people/jcjohns/clevr/>`_ where the goal is to count the number of object in the scene
 - :code:`create_clevr_dist_data_files.py`: to create a dataset from `CLEVR <https://cs.stanford.edu/people/jcjohns/clevr/>`_ where the goal is to estimate the distance of the closest object in the scene
+- :code:`create_dsprites_location_data_files.py`: to create a dataset from `dSprites <https://github.com/deepmind/dsprites-dataset>`_ where the goal is to estimate the x coordinate of the sprite on the scene
+- :code:`create_dsprites_orientation_data_files.py`: to create a dataset from `dSprites <https://github.com/deepmind/dsprites-dataset>`_ where the goal is to estimate the orientation of the sprite on the scene
 - :code:`create_euro_sat_data_files.py`: to transform the `EUROSAT <https://github.com/phelber/eurosat>`_ dataset to the :code:`disk_folder` format
 - :code:`create_food101_data_files.py`: to transform the `FOOD101 <https://data.vision.ee.ethz.ch/cvl/datasets_extra/food-101>`_ dataset to the :code:`disk_folder` format
 - :code:`create_kitti_dist_data_files.py`: to create a dataset from `KITTI <http://www.cvlibs.net/datasets/kitti/>`_ where the goal is to estimate the distance of the closest car, van or truck
