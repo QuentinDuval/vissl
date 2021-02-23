@@ -31,6 +31,10 @@
         "train": ["<path_to_pytorch_dataset>", "<unused>"],
         "val": ["<path_to_pytorch_dataset>", "<unused>"]
     },
+    "SVHN": {
+        "train": ["<path_to_pytorch_dataset>", "<unused>"],
+        "val": ["<path_to_pytorch_dataset>", "<unused>"]
+    },
     "inaturalist2018_folder": {
         "train": ["<img_path>", "<lbl_path>"],
         "val": ["<img_path>", "<lbl_path>"]
@@ -76,10 +80,6 @@
         "val": ["<img_path>", "<lbl_path>"]
     },
     "small_norb_elevation_folder": {
-        "train": ["<img_path>", "<lbl_path>"],
-        "val": ["<img_path>", "<lbl_path>"]
-    },
-    "svnh_folder": {
         "train": ["<img_path>", "<lbl_path>"],
         "val": ["<img_path>", "<lbl_path>"]
     },
