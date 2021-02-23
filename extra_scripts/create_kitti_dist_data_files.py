@@ -1,3 +1,5 @@
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+
 import argparse
 import bisect
 import math
@@ -43,8 +45,12 @@ def download_dataset(root: str):
     """
     Download the KITTI dataset archive and expand it in the folder provided as parameter
     """
-    IMAGE_URL = "https://s3.eu-central-1.amazonaws.com/avg-kitti/data_object_image_2.zip"
-    LABEL_URL = "https://s3.eu-central-1.amazonaws.com/avg-kitti/data_object_label_2.zip"
+    IMAGE_URL = (
+        "https://s3.eu-central-1.amazonaws.com/avg-kitti/data_object_image_2.zip"
+    )
+    LABEL_URL = (
+        "https://s3.eu-central-1.amazonaws.com/avg-kitti/data_object_label_2.zip"
+    )
     download_and_extract_archive(url=IMAGE_URL, download_root=root)
     download_and_extract_archive(url=LABEL_URL, download_root=root)
 
@@ -80,7 +86,7 @@ class KITTIDistance:
         split = "train" if idx in self.training_set_ids else "val"
         shutil.copy(
             src=os.path.join(self.image_folder, image_name),
-            dst=os.path.join(self.output_path, split, target, image_name)
+            dst=os.path.join(self.output_path, split, target, image_name),
         )
         return True
 
@@ -97,8 +103,10 @@ class KITTIDistance:
         Read the annotation file associated to an image and extract the distance
         to the closest vehicle in the image or "-inf" if no vehicle is found
         """
-        vehicle_types = {'Car', 'Van', 'Truck'}
-        with open(os.path.join(self.annotation_folder, annotation_name), "r") as annotations:
+        vehicle_types = {"Car", "Van", "Truck"}
+        with open(
+            os.path.join(self.annotation_folder, annotation_name), "r"
+        ) as annotations:
             distances = []
             for annotation in annotations:
                 annotation = annotation.split()

@@ -1,3 +1,5 @@
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+
 import argparse
 import os
 from typing import Set
@@ -51,7 +53,9 @@ class DSprites(Dataset):
     """
 
     def __init__(self, root: str, target_transform=None):
-        npz_file_name = "dsprites-dataset-master/dsprites_ndarray_co1sh3sc6or40x32y32_64x64.npz"
+        npz_file_name = (
+            "dsprites-dataset-master/dsprites_ndarray_co1sh3sc6or40x32y32_64x64.npz"
+        )
         self.npz_file_path = os.path.join(root, npz_file_name)
         self.npz_file = np.load(self.npz_file_path)
         self.images = self.npz_file["imgs"]
@@ -63,7 +67,7 @@ class DSprites(Dataset):
 
     def __getitem__(self, idx: int):
         image_array = self.images[idx] * 255
-        image = Image.fromarray(image_array, mode='L').convert('RGB')
+        image = Image.fromarray(image_array, mode="L").convert("RGB")
         target = self.target_transform(self.latents[idx])
         return image, target
 
@@ -84,8 +88,12 @@ class DSpritesMapper(Dataset):
     def __getitem__(self, idx: int) -> bool:
         image, target = self.dataset[idx]
         split = "train" if idx in self.training_set_ids else "val"
-        os.makedirs(os.path.join(self.output_path, split, f"bin_{target}"), exist_ok=True)
-        image.save(os.path.join(self.output_path, split, f"bin_{target}", f"image_{idx}.jpg"))
+        os.makedirs(
+            os.path.join(self.output_path, split, f"bin_{target}"), exist_ok=True
+        )
+        image.save(
+            os.path.join(self.output_path, split, f"bin_{target}", f"image_{idx}.jpg")
+        )
         return True
 
     def _get_training_set_ids(self, ratio: float) -> Set[int]:
@@ -135,4 +143,8 @@ if __name__ == "__main__":
     args = get_argument_parser().parse_args()
     if args.download:
         download_dataset(args.input)
-    create_dataset(input_folder=args.input, output_folder=args.output, target_transform=get_binned_x_position)
+    create_dataset(
+        input_folder=args.input,
+        output_folder=args.output,
+        target_transform=get_binned_x_position,
+    )

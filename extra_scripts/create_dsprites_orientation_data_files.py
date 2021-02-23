@@ -1,7 +1,10 @@
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+
 import importlib
 import math
-import numpy as np
 import os
+
+import numpy as np
 
 
 def import_dsprite_location_module():
@@ -27,7 +30,9 @@ def get_binned_orientation(latents: np.ndarray) -> int:
     max_angle = 2 * math.pi
     nb_buckets = 16
     orientation = latents[3]
-    binned_orientation = np.clip(np.floor(orientation / max_angle * nb_buckets), 0, nb_buckets - 1)
+    binned_orientation = np.clip(
+        np.floor(orientation / max_angle * nb_buckets), 0, nb_buckets - 1
+    )
     return int(binned_orientation)
 
 
@@ -46,4 +51,5 @@ if __name__ == "__main__":
     dsprite_module.create_dataset(
         input_folder=args.input,
         output_folder=args.output,
-        target_transform=get_binned_orientation)
+        target_transform=get_binned_orientation,
+    )
