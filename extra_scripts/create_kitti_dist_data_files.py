@@ -41,7 +41,7 @@ def get_argument_parser():
 
 def download_dataset(root: str):
     """
-    Download the KITTIT dataset archive and expand it in the folder provided as parameter
+    Download the KITTI dataset archive and expand it in the folder provided as parameter
     """
     IMAGE_URL = "https://s3.eu-central-1.amazonaws.com/avg-kitti/data_object_image_2.zip"
     LABEL_URL = "https://s3.eu-central-1.amazonaws.com/avg-kitti/data_object_label_2.zip"
