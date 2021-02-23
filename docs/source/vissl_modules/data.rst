@@ -241,7 +241,6 @@ To run these benchmarks, the following data preparation scripts are mandatory:
 - :code:`create_patch_camelyon_data_files.py`: to transform the `PatchCamelyon <https://github.com/basveeling/pcam>`_ dataset to the :code:`disk_folder` format
 - :code:`create_small_norb_azimuth_data_files.py` to create a dataset from `Small NORB <https://cs.nyu.edu/~ylclab/data/norb-v1.0-small/>`_ where the goal is to find the azimuth or the photographed object
 - :code:`create_small_norb_elevation_data_files.py` to create a dataset from `Small NORB <https://cs.nyu.edu/~ylclab/data/norb-v1.0-small/>`_ where the goal is to predict the elevation in the image
-- :code:`create_svhn_data_files.py`: to transform the `SVHN <http://ufldl.stanford.edu/housenumbers>`_ dataset to the :code:`disk_folder` format
 - :code:`create_ucf101_data_files.py`: to create an image action recognition dataset from the video action recognition dataset `UCF101 <https://www.crcv.ucf.edu/data/UCF101.php>`_ by extracting the middle frame
 
 You can read more about how to download these datasets and run these scripts from `here <https://github.com/facebookresearch/vissl/blob/master/extra_scripts/README.md>`_.
