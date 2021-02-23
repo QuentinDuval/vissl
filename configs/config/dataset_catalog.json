@@ -55,6 +55,10 @@
         "train": ["<img_path>", "<lbl_path>"],
         "val": ["<img_path>", "<lbl_path>"]
     },
+    "kitti_dist_folder": {
+        "train": ["<img_path>", "<lbl_path>"],
+        "val": ["<img_path>", "<lbl_path>"]
+    },
     "pcam_folder": {
         "train": ["<img_path>", "<lbl_path>"],
         "val": ["<img_path>", "<lbl_path>"]
