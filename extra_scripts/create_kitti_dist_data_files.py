@@ -67,8 +67,8 @@ class KITTIDistance:
         self.image_folder = image_folder
         self.annotation_folder = annotation_folder
         self.output_path = output_path
-        self.image_names = list(sorted(os.listdir(image_folder)))
-        self.annotation_names = list(sorted(os.listdir(annotation_folder)))
+        self.image_names = sorted(os.listdir(image_folder))
+        self.annotation_names = sorted(os.listdir(annotation_folder))
         self.nb_samples = len(self.image_names)
         self.training_set_ids = self._get_training_set_ids(ratio=0.8)
 

@@ -58,12 +58,12 @@ class _EuroSAT:
         self.image_folder = os.path.join(self.input_path, self.IMAGE_FOLDER)
         self.images = []
         self.targets = []
-        self.labels = list(sorted(os.listdir(self.image_folder)))
+        self.labels = sorted(os.listdir(self.image_folder))
 
         # There is no train/val split in the EUROSAT dataset, so we have to create it
         for i, label in enumerate(self.labels):
             label_path = os.path.join(self.image_folder, label)
-            files = list(sorted(os.listdir(label_path)))
+            files = sorted(os.listdir(label_path))
             if train:
                 self.images.extend(files[: self.TRAIN_SAMPLES])
                 self.targets.extend([i] * self.TRAIN_SAMPLES)

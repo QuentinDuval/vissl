@@ -68,9 +68,9 @@ def create_clevr_count_disk_folder(input_path: str, output_path: str):
             train_targets = set(targets)
             print("Number of classes:", len(train_targets))
         else:
-            valid_indices = set(
+            valid_indices = {
                 i for i in range(len(image_names)) if targets[i] in train_targets
-            )
+            }
             image_names = [
                 image_name
                 for i, image_name in enumerate(image_names)

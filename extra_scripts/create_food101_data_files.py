@@ -64,7 +64,7 @@ class Food101:
         )
         self.IMAGE_FOLDER = os.path.join(self.input_path, self.IMAGE_FOLDER)
         with open(self.class_file, "r") as f:
-            self.classes = set(line.strip() for line in f)
+            self.classes = {line.strip() for line in f}
 
         self.targets = []
         self.images = []
