@@ -220,6 +220,22 @@ The expected format is the exact same format used by torchvision, and the exact 
         unlabeled_X.bin
 
 
+Expected dataset structure for SVHN
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The expected format is the exact same format used by torchvision, and the exact format obtained after either:
+
+- downloading the :code:`train_32x32.mat`, :code:`test_32x32.mat` and :code:`extra_32x32.mat` files available at http://ufldl.stanford.edu/housenumbers/ in the same folder
+
+- instantiating the :code:`torchvision.datasets.SVHN` class with :code:`download=True`
+
+.. code-block::
+
+    svhn_folder/
+        test_32x32.mat
+        train_32x32.mat
+
+
 Expected dataset structure for the other benchmark datasets
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
