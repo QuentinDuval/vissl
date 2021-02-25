@@ -209,6 +209,23 @@ is provided `here <https://github.com/facebookresearch/vissl/tree/master/configs
 Scripts to automatically prepare the data for the CLEVR benchmarks is available `here <https://github.com/facebookresearch/vissl/tree/master/extra_scripts>`_.
 
 
+Benchmark: Patch Camelyon
+----------------------------
+
+The Patch Camelyon (PCAM) benchmark evaluates the classification performance on a specialized task (medical task).
+
+The configuration setting for this benchmark
+is provided `here <https://github.com/facebookresearch/vissl/tree/master/configs/config/benchmark/linear_image_classification/pcam>`_ .
+
+.. code-block:: bash
+
+    python tools/run_distributed_engines.py \
+      config=benchmark/linear_image_classification/pcam/eval_resnet_8gpu_transfer_pcam_linear \
+      config.MODEL.WEIGHTS_INIT.PARAMS_FILE=<my_weights.torch>
+
+A script to automatically prepare the data for Patch Camelyon is available `here <https://github.com/facebookresearch/vissl/tree/master/extra_scripts>`_.
+
+
 Benchmark: Linear SVM on VOC07
 ---------------------------------
 
