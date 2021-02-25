@@ -20,7 +20,7 @@ def get_argument_parser():
         "-i",
         "--input",
         type=str,
-        help="Path to the folder containing the original CLEVR_v1.0 folder",
+        help="Path to the folder containing the original dSprites repository",
     )
     parser.add_argument(
         "-o",
@@ -137,7 +137,7 @@ if __name__ == "__main__":
     Example usage:
 
     ```
-    python extra_scripts/create_dsprites_location_data_files.py -i /path/to/dsprites/ -o /output_path/to/dsprites_loc
+    python extra_scripts/create_dsprites_location_data_files.py -i /path/to/dsprites/ -o /output_path/to/dsprites_loc -d
     ```
     """
     args = get_argument_parser().parse_args()
