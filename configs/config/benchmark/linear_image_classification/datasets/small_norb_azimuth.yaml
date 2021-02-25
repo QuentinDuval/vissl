@@ -11,7 +11,6 @@ config:
           size: 96
         - name: CenterCrop
           size: 96
-        - name: RandomHorizontalFlip
         - name: ToTensor
         - name: Normalize
           mean: [0.485, 0.456, 0.406]
@@ -38,14 +37,16 @@ config:
   METERS:
     name: accuracy_list_meter
     accuracy_list_meter:
-      num_meters: 1
+      num_meters: 2
       topk_values: [1]
   MODEL:
     FEATURE_EVAL_SETTINGS:
       LINEAR_EVAL_FEAT_POOL_OPS_MAP: [
-        ["res5", ["AdaptiveAvgPool2d", [[1, 1]]]],
+        ["res5", ["AdaptiveAvgPool2d", [[2, 2]]]],
+        ["res5avg", ["Identity", []]],
       ]
     HEAD:
       PARAMS: [
+        ["eval_mlp", {"in_channels": 2048, "dims": [8192, 18]}],
         ["eval_mlp", {"in_channels": 2048, "dims": [2048, 18]}],
       ]
