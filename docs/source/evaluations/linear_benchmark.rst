@@ -168,6 +168,19 @@ is provided `here <https://github.com/facebookresearch/vissl/tree/master/configs
       config.MODEL.WEIGHTS_INIT.PARAMS_FILE=<my_weights.torch>
 
 
+Benchmark: CIFAR-100
+-----------------------
+
+The configuration setting for this benchmark
+is provided `here <https://github.com/facebookresearch/vissl/tree/master/configs/config/benchmark/linear_image_classification/cifar100>`_ .
+
+.. code-block:: bash
+
+    python tools/run_distributed_engines.py \
+      config=benchmark/linear_image_classification/cifar100/eval_resnet_8gpu_transfer_cifar100_linear \
+      config.MODEL.WEIGHTS_INIT.PARAMS_FILE=<my_weights.torch>
+
+
 Benchmark: FOOD-101
 -----------------------
 
@@ -183,10 +196,29 @@ is provided `here <https://github.com/facebookresearch/vissl/tree/master/configs
 A script to automatically prepare the data for FOOD-101 is available `here <https://github.com/facebookresearch/vissl/tree/master/extra_scripts>`_.
 
 
+Benchmark: EuroSAT
+----------------------------
+
+The Patch Camelyon (PCAM) benchmark evaluates the classification performance on a specialized task (satellite imaging).
+
+The configuration setting for this benchmark
+is provided `here <https://github.com/facebookresearch/vissl/tree/master/configs/config/benchmark/linear_image_classification/euro_sat>`_ .
+
+.. code-block:: bash
+
+    python tools/run_distributed_engines.py \
+      config=benchmark/linear_image_classification/euro_sat/eval_resnet_8gpu_transfer_euro_sat_linear \
+      config.MODEL.WEIGHTS_INIT.PARAMS_FILE=<my_weights.torch>
+
+A script to automatically prepare the data for EuroSAT is available `here <https://github.com/facebookresearch/vissl/tree/master/extra_scripts>`_.
+
+
 Benchmark: Patch Camelyon
 ----------------------------
 
-The Patch Camelyon (PCAM) benchmark evaluates the classification performance on a specialized task (medical task). The configuration setting for this benchmark
+The Patch Camelyon (PCAM) benchmark evaluates the classification performance on a specialized task (medical task).
+
+The configuration setting for this benchmark
 is provided `here <https://github.com/facebookresearch/vissl/tree/master/configs/config/benchmark/linear_image_classification/pcam>`_ .
 
 .. code-block:: bash
