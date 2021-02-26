@@ -183,6 +183,21 @@ is provided `here <https://github.com/facebookresearch/vissl/tree/master/configs
 A script to automatically prepare the data for FOOD-101 is available `here <https://github.com/facebookresearch/vissl/tree/master/extra_scripts>`_.
 
 
+Benchmark: Patch Camelyon
+----------------------------
+
+The Patch Camelyon (PCAM) benchmark evaluates the classification performance on a specialized task (medical task). The configuration setting for this benchmark
+is provided `here <https://github.com/facebookresearch/vissl/tree/master/configs/config/benchmark/linear_image_classification/pcam>`_ .
+
+.. code-block:: bash
+
+    python tools/run_distributed_engines.py \
+      config=benchmark/linear_image_classification/pcam/eval_resnet_8gpu_transfer_pcam_linear \
+      config.MODEL.WEIGHTS_INIT.PARAMS_FILE=<my_weights.torch>
+
+A script to automatically prepare the data for Patch Camelyon is available `here <https://github.com/facebookresearch/vissl/tree/master/extra_scripts>`_.
+
+
 Benchmark: CLEVR
 -------------------
 
@@ -206,24 +221,33 @@ is provided `here <https://github.com/facebookresearch/vissl/tree/master/configs
       config=benchmark/linear_image_classification/clevr_dist/eval_resnet_8gpu_transfer_clevr_dist_linear \
       config.MODEL.WEIGHTS_INIT.PARAMS_FILE=<my_weights.torch>
 
-Scripts to automatically prepare the data for the CLEVR benchmarks is available `here <https://github.com/facebookresearch/vissl/tree/master/extra_scripts>`_.
+Scripts to automatically prepare the data for the CLEVR benchmarks are available `here <https://github.com/facebookresearch/vissl/tree/master/extra_scripts>`_.
 
 
-Benchmark: Patch Camelyon
-----------------------------
+Benchmark: dSprites
+----------------------
 
-The Patch Camelyon (PCAM) benchmark evaluates the classification performance on a specialized task (medical task).
+The dSprites benchmarks evaluate the understanding of the positional information in a synthetic 2D scene by:
 
-The configuration setting for this benchmark
-is provided `here <https://github.com/facebookresearch/vissl/tree/master/configs/config/benchmark/linear_image_classification/pcam>`_ .
+- dSprites/location: estimating the X position of a sprite
+- dSprites/orientation: estimating the orientation of a sprite
+
+The configuration setting for these benchmarks
+is provided under the `dsprites <https://github.com/facebookresearch/vissl/tree/master/configs/config/benchmark/linear_image_classification/dsprites>`_ folder.
 
 .. code-block:: bash
 
+    # For dSprites location
     python tools/run_distributed_engines.py \
-      config=benchmark/linear_image_classification/pcam/eval_resnet_8gpu_transfer_pcam_linear \
+      config=benchmark/linear_image_classification/dsprites//eval_resnet_8gpu_transfer_dsprites_loc_linear \
       config.MODEL.WEIGHTS_INIT.PARAMS_FILE=<my_weights.torch>
 
-A script to automatically prepare the data for Patch Camelyon is available `here <https://github.com/facebookresearch/vissl/tree/master/extra_scripts>`_.
+    # For dSprites orientation
+    python tools/run_distributed_engines.py \
+      config=benchmark/linear_image_classification/dsprites/eval_resnet_8gpu_transfer_dsprites_orient_linear \
+      config.MODEL.WEIGHTS_INIT.PARAMS_FILE=<my_weights.torch>
+
+Scripts to automatically prepare the data for the dSprites benchmarks are available `here <https://github.com/facebookresearch/vissl/tree/master/extra_scripts>`_.
 
 
 Benchmark: Linear SVM on VOC07
