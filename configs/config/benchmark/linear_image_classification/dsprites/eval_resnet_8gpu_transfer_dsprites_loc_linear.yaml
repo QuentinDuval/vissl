@@ -18,6 +18,8 @@ config:
       DATASET_NAMES: [dsprites_loc_folder]
       BATCHSIZE_PER_REPLICA: 32
       TRANSFORMS:
+        - name: Resize
+          size: 224
         - name: ToTensor
         - name: Normalize
           mean: [0.485, 0.456, 0.406]
@@ -31,6 +33,8 @@ config:
       DATASET_NAMES: [dsprites_loc_folder]
       BATCHSIZE_PER_REPLICA: 32
       TRANSFORMS:
+        - name: Resize
+          size: 224
         - name: ToTensor
         - name: Normalize
           mean: [0.485, 0.456, 0.406]
