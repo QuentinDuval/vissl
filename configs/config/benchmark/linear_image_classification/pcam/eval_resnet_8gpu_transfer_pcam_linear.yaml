@@ -18,6 +18,8 @@ config:
       DATASET_NAMES: [pcam_folder]
       BATCHSIZE_PER_REPLICA: 32
       TRANSFORMS:
+        - name: Resize
+          size: 224
         - name: RandomHorizontalFlip
         - name: ToTensor
         - name: Normalize
@@ -32,6 +34,8 @@ config:
       DATASET_NAMES: [pcam_folder]
       BATCHSIZE_PER_REPLICA: 32
       TRANSFORMS:
+        - name: Resize
+          size: 224
         - name: ToTensor
         - name: Normalize
           mean: [0.485, 0.456, 0.406]
