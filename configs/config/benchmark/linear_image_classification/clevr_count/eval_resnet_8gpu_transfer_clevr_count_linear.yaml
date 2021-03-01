@@ -18,8 +18,8 @@ config:
       DATASET_NAMES: [clevr_count_folder]
       BATCHSIZE_PER_REPLICA: 32
       TRANSFORMS:
-        - name: RandomResizedCrop
-          size: 224
+        - name: Resize
+          size: [224, 224]
         - name: RandomHorizontalFlip
         - name: ToTensor
         - name: Normalize
@@ -35,9 +35,7 @@ config:
       BATCHSIZE_PER_REPLICA: 32
       TRANSFORMS:
         - name: Resize
-          size: 256
-        - name: CenterCrop
-          size: 224
+          size: [224, 224]
         - name: ToTensor
         - name: Normalize
           mean: [0.485, 0.456, 0.406]
