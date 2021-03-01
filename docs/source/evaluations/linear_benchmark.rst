@@ -248,6 +248,23 @@ is provided `here <https://github.com/facebookresearch/vissl/tree/master/configs
 A script to automatically prepare the data for FOOD-101 is available `here <https://github.com/facebookresearch/vissl/tree/master/extra_scripts>`_.
 
 
+Benchmark: UCF-101
+-----------------------
+
+The UCF-101 benchmark evaluates the classification performance on human actions from a single image (the middle frame of the UCF101 dataset).
+
+The configuration setting for this benchmark
+is provided `here <https://github.com/facebookresearch/vissl/tree/master/configs/config/benchmark/linear_image_classification/ucf101>`_.
+
+.. code-block:: bash
+
+    python tools/run_distributed_engines.py \
+      config=benchmark/linear_image_classification/ucf101/eval_resnet_8gpu_transfer_ucf101_linear \
+      config.MODEL.WEIGHTS_INIT.PARAMS_FILE=<my_weights.torch>
+
+A script to automatically prepare the data for UCF-101 is available `here <https://github.com/facebookresearch/vissl/tree/master/extra_scripts>`_. This script will handle the transformation from videos to images by extracting the middle frame of each of the videos.
+
+
 Benchmark: EuroSAT
 ----------------------------
 
