@@ -168,6 +168,19 @@ is provided `here <https://github.com/facebookresearch/vissl/tree/master/configs
       config.MODEL.WEIGHTS_INIT.PARAMS_FILE=<my_weights.torch>
 
 
+Benchmark: CIFAR-10
+-----------------------
+
+The configuration setting for this benchmark
+is provided `here <https://github.com/facebookresearch/vissl/tree/master/configs/config/benchmark/linear_image_classification/cifar10>`_ .
+
+.. code-block:: bash
+
+    python tools/run_distributed_engines.py \
+      config=benchmark/linear_image_classification/cifar10/eval_resnet_8gpu_transfer_cifar10_linear \
+      config.MODEL.WEIGHTS_INIT.PARAMS_FILE=<my_weights.torch>
+
+
 Benchmark: CIFAR-100
 -----------------------
 
