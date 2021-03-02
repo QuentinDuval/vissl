@@ -58,25 +58,28 @@ def create_clevr_distance_disk_folder(input_path: str, output_path: str):
     for split in ("train", "val"):
         print(f"Processing the {split} split...")
 
-        # Create the directories for each target
-        for target in target_labels:
-            os.makedirs(os.path.join(output_path, split, target), exist_ok=True)
-
         # Read the scene description, holding all object information
         scenes_path = os.path.join(input_path, "scenes", f"CLEVR_{split}_scenes.json")
         with open(scenes_path) as f:
             scenes = json.load(f)["scenes"]
 
-        # Move the images in their appropriate folder (one folder by target)
+        # Associate the images with their corresponding target
+        image_paths = []
+        image_labels = []
         for scene in tqdm(scenes):
-            image_name = scene["image_filename"]
+            image_path = os.path.join(input_path, "images", split, scene["image_filename"])
             distance = min(object["pixel_coords"][2] for object in scene["objects"])
             target_id = bisect.bisect_left(thresholds, distance)
             target = target_labels[target_id]
-            shutil.copy(
-                src=os.path.join(input_path, "images", split, image_name),
-                dst=os.path.join(output_path, split, target, image_name),
-            )
+            image_paths.append(image_path)
+            image_labels.append(target)
+
+        # Save the these lists in the disk_filelist format
+        os.makedirs(output_path, exist_ok=True)
+        img_info_out_path = os.path.join(output_path, f"{split}_images.npy")
+        label_info_out_path = os.path.join(output_path, f"{split}_labels.npy")
+        np.save(img_info_out_path, np.array(image_paths))
+        np.save(label_info_out_path, np.array(image_labels))
 
 
 if __name__ == "__main__":

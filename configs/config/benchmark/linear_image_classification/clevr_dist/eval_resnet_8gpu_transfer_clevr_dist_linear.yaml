@@ -13,8 +13,8 @@ config:
   DATA:
     NUM_DATALOADER_WORKERS: 5
     TRAIN:
-      DATA_SOURCES: [disk_folder]
-      LABEL_SOURCES: [disk_folder]
+      DATA_SOURCES: [disk_filelist]
+      LABEL_SOURCES: [disk_filelist]
       DATASET_NAMES: [clevr_dist_folder]
       BATCHSIZE_PER_REPLICA: 32
       TRANSFORMS:
@@ -29,8 +29,8 @@ config:
       COPY_TO_LOCAL_DISK: False
       COPY_DESTINATION_DIR: /tmp/clevr_dist/
     TEST:
-      DATA_SOURCES: [disk_folder]
-      LABEL_SOURCES: [disk_folder]
+      DATA_SOURCES: [disk_filelist]
+      LABEL_SOURCES: [disk_filelist]
       DATASET_NAMES: [clevr_dist_folder]
       BATCHSIZE_PER_REPLICA: 32
       TRANSFORMS:

@@ -2,8 +2,8 @@
 
 import argparse
 import json
+import numpy as np
 import os
-import shutil
 
 from torchvision.datasets.utils import download_and_extract_archive
 from tqdm import tqdm
@@ -45,18 +45,17 @@ def download_dataset(root: str):
     download_and_extract_archive(url=URL, download_root=root)
 
 
-def create_clevr_count_disk_folder(input_path: str, output_path: str):
+def create_clevr_count_disk_filelist(input_path: str, output_path: str):
     """
     Transform the CLEVR_v1.0 dataset in folder 'input_path' to a classifcation dataset following the
     disk_folder format at 'output_path' where the goal is to count the number of objects in the scene
     """
-    train_targets = set()
+    train_unique_targets = set()
     for split in ("train", "val"):
         print(f"Processing the {split} split...")
 
         # Read the scene description, holding all object information
         input_image_path = os.path.join(input_path, "images", split)
-        output_image_path = os.path.join(output_path, split)
         scenes_path = os.path.join(input_path, "scenes", f"CLEVR_{split}_scenes.json")
         with open(scenes_path) as f:
             scenes = json.load(f)["scenes"]
@@ -64,12 +63,13 @@ def create_clevr_count_disk_folder(input_path: str, output_path: str):
         targets = [len(scene["objects"]) for scene in scenes]
 
         # Make sure that the categories in the train and validation sets are the same
+        # and assigning an identifier to each of the unique target
         if split == "train":
-            train_targets = set(targets)
-            print("Number of classes:", len(train_targets))
+            train_unique_targets = set(targets)
+            print("Number of classes:", len(train_unique_targets))
         else:
             valid_indices = {
-                i for i in range(len(image_names)) if targets[i] in train_targets
+                i for i in range(len(image_names)) if targets[i] in train_unique_targets
             }
             image_names = [
                 image_name
@@ -78,18 +78,19 @@ def create_clevr_count_disk_folder(input_path: str, output_path: str):
             ]
             targets = [target for i, target in enumerate(targets) if i in valid_indices]
 
-        # Create the directories for each target
-        for target in train_targets:
-            os.makedirs(
-                os.path.join(output_image_path, f"count_{target}"), exist_ok=True
-            )
-
-        # Move the images in their appropriate folder (one folder by target)
+        # List the images and labels of the partition
+        image_paths = []
+        image_labels = []
         for image_name, target in tqdm(zip(image_names, targets), total=len(targets)):
-            shutil.copy(
-                src=os.path.join(input_image_path, image_name),
-                dst=os.path.join(output_path, split, f"count_{target}", image_name),
-            )
+            image_paths.append(os.path.join(input_image_path, image_name))
+            image_labels.append(f"count_{target}")
+
+        # Save the these lists in the disk_filelist format
+        os.makedirs(output_path, exist_ok=True)
+        img_info_out_path = os.path.join(output_path, f"{split}_images.npy")
+        label_info_out_path = os.path.join(output_path, f"{split}_labels.npy")
+        np.save(img_info_out_path, np.array(image_paths))
+        np.save(label_info_out_path, np.array(image_labels))
 
 
 if __name__ == "__main__":
@@ -104,4 +105,4 @@ if __name__ == "__main__":
     if args.download:
         download_dataset(args.input)
     input_path = os.path.join(args.input, "CLEVR_v1.0")
-    create_clevr_count_disk_folder(input_path=input_path, output_path=args.output)
+    create_clevr_count_disk_filelist(input_path=input_path, output_path=args.output)

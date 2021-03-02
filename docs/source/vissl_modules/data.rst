@@ -21,7 +21,7 @@ Source of the data (:code:`disk_filelist` | :code:`disk_folder` | :code:`torchvi
 
 - :code:`disk_filelist`: These are numpy (or .pkl) files: (1) file containing images information (2) file containing corresponding labels for images. We provide `scripts <https://github.com/facebookresearch/vissl/blob/master/extra_scripts/README.md>`_ that can be used to prepare these two files for a dataset of choice.
 
-- :code:`torchvision_dataset`: the root folder path to the torchvision dowloaded dataset. As of now, the supported datasets are: CIFAR-10, CIFAR-100, MNIST and STL-10.
+- :code:`torchvision_dataset`: the root folder path to the torchvision dowloaded dataset. As of now, the supported datasets are: CIFAR10, CIFAR100, MNIST, STL10 and SVHN.
 
 To use a dataset, VISSL takes following inputs in the configuration file for each dataset split (train, test):
 
@@ -241,27 +241,36 @@ Expected dataset structure for the other benchmark datasets
 
 VISSL supports benchmarks inspired by the `VTAB <https://arxiv.org/pdf/1910.04867.pdf>`_ and `CLIP <https://cdn.openai.com/papers/Learning_Transferable_Visual_Models_From_Natural_Language_Supervision.pdf>`_ papers, for which the datasets either:
 
-- Do not directly exist but are transformations of existing dataset
-- Are not in a format compatible with the :code:`disk_folder` format of VISSL
+- Do not directly exist but are transformations of existing dataset (like images extracted from videos)
+- Are not in a format directly compatible with the :code:`disk_folder` or the :code:`disk_filelist` format of VISSL
 - And are not yet part of `torchvision <https://pytorch.org/vision/stable/datasets.html>`_ datasets
 
 To run these benchmarks, the following data preparation scripts are mandatory:
 
-- :code:`create_clevr_count_data_files.py`: to create a dataset from `CLEVR <https://cs.stanford.edu/people/jcjohns/clevr/>`_ where the goal is to count the number of object in the scene
-- :code:`create_clevr_dist_data_files.py`: to create a dataset from `CLEVR <https://cs.stanford.edu/people/jcjohns/clevr/>`_ where the goal is to estimate the distance of the closest object in the scene
-- :code:`create_dsprites_location_data_files.py`: to create a dataset from `dSprites <https://github.com/deepmind/dsprites-dataset>`_ where the goal is to estimate the x coordinate of the sprite on the scene
-- :code:`create_dsprites_orientation_data_files.py`: to create a dataset from `dSprites <https://github.com/deepmind/dsprites-dataset>`_ where the goal is to estimate the orientation of the sprite on the scene
+- :code:`create_clevr_count_data_files.py`: to create a :code:`disk_filelist` dataset from `CLEVR <https://cs.stanford.edu/people/jcjohns/clevr/>`_ where the goal is to count the number of object in the scene
+- :code:`create_clevr_dist_data_files.py`: to create a :code:`disk_filelist` dataset from `CLEVR <https://cs.stanford.edu/people/jcjohns/clevr/>`_ where the goal is to estimate the distance of the closest object in the scene
+- :code:`create_dsprites_location_data_files.py`: to create a :code:`disk_folder` dataset from `dSprites <https://github.com/deepmind/dsprites-dataset>`_ where the goal is to estimate the x coordinate of the sprite on the scene
+- :code:`create_dsprites_orientation_data_files.py`: to create a :code:`disk_folder` dataset from `dSprites <https://github.com/deepmind/dsprites-dataset>`_ where the goal is to estimate the orientation of the sprite on the scene
 - :code:`create_euro_sat_data_files.py`: to transform the `EUROSAT <https://github.com/phelber/eurosat>`_ dataset to the :code:`disk_folder` format
 - :code:`create_food101_data_files.py`: to transform the `FOOD101 <https://data.vision.ee.ethz.ch/cvl/datasets_extra/food-101>`_ dataset to the :code:`disk_folder` format
-- :code:`create_kitti_dist_data_files.py`: to create a dataset from `KITTI <http://www.cvlibs.net/datasets/kitti/>`_ where the goal is to estimate the distance of the closest car, van or truck
+- :code:`create_kitti_dist_data_files.py`: to create a :code:`disk_folder` dataset from `KITTI <http://www.cvlibs.net/datasets/kitti/>`_ where the goal is to estimate the distance of the closest car, van or truck
 - :code:`create_patch_camelyon_data_files.py`: to transform the `PatchCamelyon <https://github.com/basveeling/pcam>`_ dataset to the :code:`disk_folder` format
-- :code:`create_small_norb_azimuth_data_files.py` to create a dataset from `Small NORB <https://cs.nyu.edu/~ylclab/data/norb-v1.0-small/>`_ where the goal is to find the azimuth or the photographed object
-- :code:`create_small_norb_elevation_data_files.py` to create a dataset from `Small NORB <https://cs.nyu.edu/~ylclab/data/norb-v1.0-small/>`_ where the goal is to predict the elevation in the image
-- :code:`create_ucf101_data_files.py`: to create an image action recognition dataset from the video action recognition dataset `UCF101 <https://www.crcv.ucf.edu/data/UCF101.php>`_ by extracting the middle frame
+- :code:`create_small_norb_azimuth_data_files.py` to create a :code:`disk_folder` dataset from `Small NORB <https://cs.nyu.edu/~ylclab/data/norb-v1.0-small/>`_ where the goal is to find the azimuth or the photographed object
+- :code:`create_small_norb_elevation_data_files.py` to create a :code:`disk_folder` dataset from `Small NORB <https://cs.nyu.edu/~ylclab/data/norb-v1.0-small/>`_ where the goal is to predict the elevation in the image
+- :code:`create_ucf101_data_files.py`: to create a :code:`disk_folder` image action recognition dataset from the video action recognition dataset `UCF101 <https://www.crcv.ucf.edu/data/UCF101.php>`_ by extracting the middle frame
 
 You can read more about how to download these datasets and run these scripts from `here <https://github.com/facebookresearch/vissl/blob/master/extra_scripts/README.md>`_.
 
-After data preparation, the output folders are compatible with the :code:`disk_folder` layout:
+After data preparation, the output folders are either compatible with the :code:`disk_filelist` layout:
+
+.. code-block:: bash
+
+    train_images.npy  # Paths to the train images
+    train_labels.npy  # Labels for each of the train images
+    val_images.npy    # Paths to the val images
+    val_labels.npy    # Labels for each of the val images
+
+Or with the :code:`disk_folder` layout:
 
 .. code-block:: bash
 
@@ -289,6 +298,20 @@ After data preparation, the output folders are compatible with the :code:`disk_f
             <im-M-name>.JPEG
             ...
         ...
+
+.. note::
+
+    In the case of the :code:`disk_folder` layout, the images are copied into the output folder and the input folder is not necessary anymore.
+    The input folder can for instance be deleted.
+
+    In the case of the :code:`disk_filelist` layout, the images are referenced inside the :code:`.npy` files.
+    It is therefore important to keep the input folder and not alter it (which includes not moving it).
+
+    The :code:`disk_filelist` has the advantage of using less space, while the :code:`disk_folder` offers total decoupling from the
+    original dataset files and is more advantageous for small number of images or when the inputs do not allow to reference images
+    (for instance when extracting frames from videos, or dealing with images in an unsupported format).
+
+    The before mentioned scripts use the either the :code:`disk_folder` or :code:`disk_filelist` based on these constraints.
 
 
 Dataloader
