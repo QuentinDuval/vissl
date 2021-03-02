@@ -8,9 +8,7 @@ config:
       DATASET_NAMES: [small_norb_elevation_folder]
       TRANSFORMS:
         - name: Resize
-          size: 96
-        - name: CenterCrop
-          size: 96
+          size: 224
         - name: RandomHorizontalFlip
         - name: ToTensor
         - name: Normalize
@@ -25,9 +23,7 @@ config:
       DATASET_NAMES: [small_norb_elevation_folder]
       TRANSFORMS:
         - name: Resize
-          size: 96
-        - name: CenterCrop
-          size: 96
+          size: 224
         - name: ToTensor
         - name: Normalize
           mean: [0.485, 0.456, 0.406]
