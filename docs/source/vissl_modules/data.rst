@@ -275,27 +275,23 @@ Or with the :code:`disk_folder` layout:
 .. code-block:: bash
 
     train/
-        <n0......>/
-            <im-1-name>.JPEG
+        label1/
+            image_1.jpeg
+            image_2.jpeg
             ...
-            <im-N-name>.JPEG
-            ...
-        <n1......>/
-            <im-1-name>.JPEG
-            ...
-            <im-M-name>.JPEG
+        label2/
+            image_x.jpeg
+            image_y.jpeg
             ...
         ...
     val/
-        <n0......>/
-            <im-1-name>.JPEG
+        label1/
+            image_1.jpeg
+            image_2.jpeg
             ...
-            <im-N-name>.JPEG
-            ...
-        <n1......>/
-            <im-1-name>.JPEG
-            ...
-            <im-M-name>.JPEG
+        label2/
+            image_x.jpeg
+            image_y.jpeg
             ...
         ...
 

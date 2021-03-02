@@ -10,17 +10,17 @@ VISSL supports benchmarks inspired by the [VTAB](https://arxiv.org/pdf/1910.0486
 
 To run these benchmarks, the following data preparation scripts are mandatory:
 
-- `create_clevr_count_data_files.py`: to create a dataset from [CLEVR](https://cs.stanford.edu/people/jcjohns/clevr/) where the goal is to count the number of object in the scene
-- `create_clevr_dist_data_files.py`: to create a dataset from [CLEVR](https://cs.stanford.edu/people/jcjohns/clevr/) where the goal is to estimate the distance to the closest object in the scene
-- `create_dsprites_location_data_files.py`: to create a dataset from [dSprites](https://github.com/deepmind/dsprites-dataset) where the goal is to estimate the x coordinate of the sprite on the scene
-- `create_dsprites_orientation_data_files.py`: to create a dataset from [dSprites](https://github.com/deepmind/dsprites-dataset) where the goal is to estimate the orientation of the sprite on the scene
+- `create_clevr_count_data_files.py`: to create a `disk_filelist` dataset from [CLEVR](https://cs.stanford.edu/people/jcjohns/clevr/) where the goal is to count the number of object in the scene
+- `create_clevr_dist_data_files.py`: to create a `disk_filelist` dataset from [CLEVR](https://cs.stanford.edu/people/jcjohns/clevr/) where the goal is to estimate the distance to the closest object in the scene
+- `create_dsprites_location_data_files.py`: to create a `disk_folder` dataset from [dSprites](https://github.com/deepmind/dsprites-dataset) where the goal is to estimate the x coordinate of the sprite on the scene
+- `create_dsprites_orientation_data_files.py`: to create a `disk_folder` dataset from [dSprites](https://github.com/deepmind/dsprites-dataset) where the goal is to estimate the orientation of the sprite on the scene
 - `create_euro_sat_data_files.py`: to transform the [EUROSAT](https://github.com/phelber/eurosat) dataset to the `disk_folder` format
 - `create_food101_data_files.py`: to transform the [FOOD101](https://data.vision.ee.ethz.ch/cvl/datasets_extra/food-101) dataset to the `disk_folder` format
-- `create_kitti_dist_data_files.py`: to create a dataset from [KITTI](http://www.cvlibs.net/datasets/kitti/) where the goal is to estimate the distance of the closest car, van or truck
+- `create_kitti_dist_data_files.py`: to create a `disk_folder` dataset from [KITTI](http://www.cvlibs.net/datasets/kitti/) where the goal is to estimate the distance of the closest car, van or truck
 - `create_patch_camelyon_data_files.py`: to transform the [PatchCamelyon](https://github.com/basveeling/pcam) dataset to the `disk_folder` format
-- `create_small_norb_azimuth_data_files.py` to create a dataset from [Small NORB](https://cs.nyu.edu/~ylclab/data/norb-v1.0-small/) where the goal is to find the azimuth or the photographed object
-- `create_small_norb_elevation_data_files.py` to create a dataset from [Small NORB](https://cs.nyu.edu/~ylclab/data/norb-v1.0-small/) where the goal is to predict the elevation in the image
-- `create_ucf101_data_files.py`: to create an image action recognition dataset from the video action recognition dataset [UCF101](https://www.crcv.ucf.edu/data/UCF101.php) by extracting the middle frame
+- `create_small_norb_azimuth_data_files.py` to create a `disk_folder` dataset from [Small NORB](https://cs.nyu.edu/~ylclab/data/norb-v1.0-small/) where the goal is to find the azimuth or the photographed object
+- `create_small_norb_elevation_data_files.py` to create a `disk_folder` dataset from [Small NORB](https://cs.nyu.edu/~ylclab/data/norb-v1.0-small/) where the goal is to predict the elevation in the image
+- `create_ucf101_data_files.py`: to create a `disk_folder` image action recognition dataset from the video action recognition dataset [UCF101](https://www.crcv.ucf.edu/data/UCF101.php) by extracting the middle frame
 
 ### Unified data preparation interface
 
@@ -33,6 +33,59 @@ python create_[***]_data_files.py -i /path/to/input_datset -o /path/to/tranforme
 - `-i` gives the path to the official dataset format
 - `-o` gives the path to the output transformed dataset (the one to feed to VISSL)
 - `-d` (optional) automatically downloads the dataset in the input path
+
+Scripts producing a `disk_filelist` format will create the following structure:
+
+```
+output_folder/
+    train_images.npy  # Paths to the train images
+    train_labels.npy  # Labels for each of the train images
+    val_images.npy    # Paths to the val images
+    val_labels.npy    # Labels for each of the val images
+```
+
+These files should be referenced in the `dataset_catalog.json` like so:
+
+```json
+"dataset_filelist": {
+    "train": ["/path/to/train_images.npy", "/path/to/train_labels.npy"],
+    "val": ["/path/to/val_images.npy", "/path/to/val_labels.npy"]
+},
+```
+
+Scripts producing a `disk_folder` format will create the following structure:
+
+```
+train/
+    label1/
+        image_1.jpeg
+        image_2.jpeg
+        ...
+    label2/
+        image_x.jpeg
+        image_y.jpeg
+        ...
+    ...
+val/
+    label1/
+        image_1.jpeg
+        image_2.jpeg
+        ...
+    label2/
+        image_x.jpeg
+        image_y.jpeg
+        ...
+    ...
+```
+
+These files should be referenced in the `dataset_catalog.json` like so:
+
+```json
+"dataset_folder": {
+    "train": ["/path/to/dataset/train", "<ignored>"],
+    "val": ["/path/to/dataset/val", "<ignored>"]
+},
+```
 
 The following sections will describe each of these data preparation scripts in detail.
 
@@ -53,10 +106,10 @@ The folder `/output_path/clevr_count` now contains the CLEVR/Counts dataset.
 The last step is to set this path in `dataset_catalog.json` and you are good to go:
 
 ```
-"clevr_count_folder": {
-    "train": ["/output_path/to/clevr_count/train", "<lbl_path>"],
-    "val": ["/output_path/to/clevr_count/val", "<lbl_path>"]
-}
+"clevr_count_filelist": {
+    "train": ["/output_path/to/clevr_count/train_images.npy", "/output_path/to/clevr_count/train_labels.npy"],
+    "val": ["/output_path/to/clevr_count/val_images.npy", "/output_path/to/clevr_count/val_labels.npy"]
+},
 ```
 
 #### Manual download
@@ -105,10 +158,10 @@ Follow the exact same steps as for the preparation of the CLEVR/Count dataset de
 Once the dataset is prepared and available at `/path/to/clevr_dist`, the last step is to set this path in `dataset_catalog.json` and you are good to go:
 
 ```
-"clevr_count_folder": {
-    "train": ["/output_path/to/clevr_dist/train", "<lbl_path>"],
-    "val": ["/output_path/to/clevr_dist/val", "<lbl_path>"]
-}
+"clevr_dist_filelist": {
+    "train": ["/path/to/clevr_dist/train_images.npy", "/path/to/clevr_dist/train_labels.npy"],
+    "val": ["/path/to/clevr_dist/val_images.npy", "/path/to/clevr_dist/val_labels.npy"]
+},
 ```
 
 ### Preparing UCF101/image data files
