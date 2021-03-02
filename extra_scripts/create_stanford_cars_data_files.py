@@ -158,6 +158,4 @@ if __name__ == "__main__":
     args = get_argument_parser().parse_args()
     if args.download:
         download_dataset(args.input)
-    create_dataset(
-        input_folder=args.input, output_folder=args.output,
-    )
+    create_dataset(input_folder=args.input, output_folder=args.output)

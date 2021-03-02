@@ -4,7 +4,6 @@ import argparse
 import bisect
 import json
 import os
-import shutil
 
 import numpy as np
 from torchvision.datasets.utils import download_and_extract_archive
@@ -67,7 +66,9 @@ def create_clevr_distance_disk_folder(input_path: str, output_path: str):
         image_paths = []
         image_labels = []
         for scene in tqdm(scenes):
-            image_path = os.path.join(input_path, "images", split, scene["image_filename"])
+            image_path = os.path.join(
+                input_path, "images", split, scene["image_filename"]
+            )
             distance = min(object["pixel_coords"][2] for object in scene["objects"])
             target_id = bisect.bisect_left(thresholds, distance)
             target = target_labels[target_id]
