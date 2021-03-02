@@ -102,7 +102,7 @@ python extra_scripts/create_clevr_count_data_files.py \
     -d
 ```
 
-The folder `/output_path/clevr_count` now contains the CLEVR/Counts dataset.
+The folder `/output_path/clevr_count` now contains the CLEVR/Counts `disk_filelist` dataset.
 The last step is to set this path in `dataset_catalog.json` and you are good to go:
 
 ```
@@ -164,7 +164,219 @@ Once the dataset is prepared and available at `/path/to/clevr_dist`, the last st
 },
 ```
 
+### Preparing the dSprites/location data files
+
+Run the `create_dsprites_location_data_files.py` script with the `-d` option as follows:
+
+```bash
+python extra_scripts/create_dsprites_location_data_files.py \
+    -i /path/to/dsprites/ \
+    -o /output_path/to/dsprites_loc
+    -d
+```
+
+The folder `/output_path/to/dsprites_loc` now contains the dSprites/location `disk_folder` dataset.
+The last step is to set this path in `dataset_catalog.json` and you are good to go:
+
+```
+"dsprites_loc_folder": {
+    "train": ["/output_path/to/dsprites_loc/train", "<ignored>"],
+    "val": ["/output_path/to/dsprites_loc/val", "<ignored>"]
+},
+```
+
+### Preparing the dSprites/orientation data files
+
+Run the `create_dsprites_orientation_data_files.py` script with the `-d` option as follows:
+
+```bash
+python extra_scripts/create_dsprites_orientation_data_files.py \
+    -i /path/to/dsprites/ \
+    -o /output_path/to/dsprites_orient
+    -d
+```
+
+The folder `/output_path/to/dsprites_orient` now contains the dSprites/orientation `disk_folder` dataset.
+The last step is to set this path in `dataset_catalog.json` and you are good to go:
+
+```
+"dsprites_orient_folder": {
+    "train": ["/output_path/to/dsprites_orient/train", "<ignored>"],
+    "val": ["/output_path/to/dsprites_orient/val", "<ignored>"]
+},
+```
+
+### Preparing the EuroSAT data files
+
+Run the `create_euro_sat_data_files.py` script with the `-d` option as follows:
+
+```bash
+python extra_scripts/create_euro_sat_data_files.py \
+    -i /path/to/euro_sat/ \
+    -o /output_path/to/euro_sat
+    -d
+```
+
+The folder `/output_path/to/euro_sat` now contains the EuroSAT `disk_folder` dataset.
+The last step is to set this path in `dataset_catalog.json` and you are good to go:
+
+```
+"euro_sat_folder": {
+    "train": ["/output_path/to/euro_sat/train", "<ignored>"],
+    "val": ["/output_path/to/euro_sat/val", "<ignored>"]
+},
+```
+
+### Preparing the Food-101 data files
+
+Run the `create_food101_data_files.py` script with the `-d` option as follows:
+
+```bash
+python extra_scripts/create_food101_data_files.py \
+    -i /path/to/food101/ \
+    -o /output_path/to/food101
+    -d
+```
+
+The folder `/output_path/to/food101` now contains the Food101 `disk_folder` dataset.
+The last step is to set this path in `dataset_catalog.json` and you are good to go:
+
+```
+"food101_folder": {
+    "train": ["/output_path/to/food101/train", "<ignored>"],
+    "val": ["/output_path/to/food101/val", "<ignored>"]
+},
+```
+
+### Preparing the KITTI/distance data files
+
+Run the `create_kitti_dist_data_files.py` script with the `-d` option as follows:
+
+```bash
+python extra_scripts/create_kitti_dist_data_files.py \
+    -i /path/to/kitti/ \
+    -o /output_path/to/kitti_distance
+    -d
+```
+
+The folder `/output_path/to/kitti_distance` now contains the KITTI/distance `disk_folder` dataset.
+The last step is to set this path in `dataset_catalog.json` and you are good to go:
+
+```
+"kitti_dist_folder": {
+    "train": ["/output_path/to/kitti_distance/train", "<ignored>"],
+    "val": ["/output_path/to/kitti_distance/val", "<ignored>"]
+},
+```
+
+### Preparing the Patch Camelyon data files
+
+Run the `create_patch_camelyon_data_files.py` script with the `-d` option as follows:
+
+```bash
+python extra_scripts/create_patch_camelyon_data_files.py \
+    -i /path/to/pcam/ \
+    -o /output_path/to/pcam
+    -d
+```
+
+The folder `/output_path/to/pcam` now contains the Patch Camelyon `disk_folder` dataset.
+The last step is to set this path in `dataset_catalog.json` and you are good to go:
+
+```
+"pcam_folder": {
+    "train": ["/output_path/to/pcam/train", "<ignored>"],
+    "val": ["/output_path/to/pcam/val", "<ignored>"]
+},
+```
+
+### Preparing the SmallNORB/azimuth data files
+
+Run the `create_small_norb_azimuth_data_files.py` script with the `-d` option as follows:
+
+```bash
+python extra_scripts/create_small_norb_azimuth_data_files.py \
+    -i /path/to/snorb/ \
+    -o /output_path/to/snorb_azimuth
+    -d
+```
+
+The folder `/output_path/to/snorb_azimuth` now contains the SmallNORB/azimuth `disk_folder` dataset.
+The last step is to set this path in `dataset_catalog.json` and you are good to go:
+
+```
+"small_norb_azimuth_folder": {
+    "train": ["/output_path/to/snorb_azimuth/train", "<ignored>"],
+    "val": ["/output_path/to/snorb_azimuth/val", "<ignored>"]
+},
+```
+
+### Preparing the SmallNORB/elevation data files
+
+Run the `create_small_norb_elevation_data_files.py` script with the `-d` option as follows:
+
+```bash
+python extra_scripts/create_small_norb_elevation_data_files.py \
+    -i /path/to/snorb/ \
+    -o /output_path/to/snorb_elevation
+    -d
+```
+
+The folder `/output_path/to/snorb_elevation` now contains the SmallNORB/elevation `disk_folder` dataset.
+The last step is to set this path in `dataset_catalog.json` and you are good to go:
+
+```
+"small_norb_elevation_folder": {
+    "train": ["/output_path/to/snorb_elevation/train", "<ignored>"],
+    "val": ["/output_path/to/snorb_elevation/val", "<ignored>"]
+},
+```
+
+### Preparing the Stanford Cars data files
+
+Run the `create_stanford_cars_data_files.py` script with the `-d` option as follows:
+
+```bash
+python extra_scripts/create_stanford_cars_data_files.py \
+    -i /path/to/cars/ \
+    -o /output_path/to/cars
+    -d
+```
+
+The folder `/output_path/to/cars` now contains the Stanford Cars `disk_folder` dataset.
+The last step is to set this path in `dataset_catalog.json` and you are good to go:
+
+```
+"stanford_cars_folder": {
+    "train": ["/output_path/to/cars/train", "<ignored>"],
+    "val": ["/output_path/to/cars/val", "<ignored>"]
+},
+```
+
 ### Preparing UCF101/image data files
+
+#### Automatic download
+
+Run the `create_ucf101_data_files.py` script with the `-d` option as follows:
+
+```bash
+python extra_scripts/create_ucf101_data_files.py \
+    -i /path/to/ucf101/ \
+    -o /output_path/to/ucf101
+    -d
+```
+
+The folder `/output_path/ucf101` now contains the UCF101 image action recognition `disk_folder` dataset.
+The last step is to set this path in `dataset_catalog.json` and you are good to go:
+
+```
+"ucf101_folder": {
+    "train": ["/output_path/to/ucf101/train", "<ignored>"],
+    "val": ["/output_path/to/ucf101/val", "<ignored>"]
+},
+```
+
+#### Manual download
 
 Download the full dataset by visiting the [UCF101 website](https://www.crcv.ucf.edu/data/UCF101.php):
 
@@ -172,13 +384,15 @@ Download the full dataset by visiting the [UCF101 website](https://www.crcv.ucf.
 - Click on [The Train/Test Splits for Action Recognition on UCF101 data set can be downloaded by clicking here](https://www.crcv.ucf.edu/data/UCF101/UCF101TrainTestSplits-RecognitionTask.zip) to retrieve the splits.
 
 Expand both archives in the same folder, say `/path/to/ucf101`.
-
 The resulting folder should have the following structure:
 
 ```bash
 ucf101/
-    data/
-        ... 13320 videos ...
+    UCF-101/
+        ApplyEyeMakeup/
+            ... videos ...
+        ApplyLipstick/
+            ... videos ...
     ucfTrainTestlist/
         classInd.txt
         testlist01.txt
@@ -192,33 +406,17 @@ ucf101/
 Run the following commands (where `/path/to/ucf101` is the path of the folder above):
 
 ```bash
-# To create the training split
-
 python extra_scripts/create_ucf101_data_files.py \
-    -d /path/to/ucf101/data \
-    -a /path/to/ucf101/ucfTrainTestlist/trainlist01.txt \
-    -o /output_path/to/ucf101/train
-
-# To create the test split
-
-python extra_scripts/create_ucf101_data_files.py \
-    -d /path/to/ucf101/data \
-    -a /path/to/ucf101/ucfTrainTestlist/testlist01.txt \
-    -o /output_path/to/ucf101/test
+    -i /path/to/ucf101/ \
+    -o /output_path/to/ucf101
 ```
 
-The folder `/output_path/ucf101` now contains the UCF101 image action recognition dataset. The last step is to set this path in `dataset_catalog.json` and you are good to go:
-
-```
-"ucf101_folder": {
-    "train": ["/output_path/to/ucf101/train", "<lbl_path>"],
-    "val": ["/output_path/to/ucf101/test", "<lbl_path>"]
-}
-```
+The folder `/output_path/ucf101` now contains the UCF101 image action recognition dataset.
 
 <br>
 
 ## Data preparation (optional)
+
 The following scripts are optional as VISSL's `dataset_catalog.py` supports reading the downloaded data directly for most of these. For all the datasets below, we assume that the datasets are in the format as described [here](../vissl/data/README.md).
 
 ### Preparing COCO data files
