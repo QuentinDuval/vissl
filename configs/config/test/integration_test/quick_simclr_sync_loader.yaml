@@ -38,7 +38,8 @@ config:
       COLLATE_FUNCTION: simclr_collator
       MMAP_MODE: True
       COPY_TO_LOCAL_DISK: False
-      DATA_LIMIT: 500
+      DATA_LIMIT:
+        NB_SAMPLES: 500
       DROP_LAST: True
   TRAINER:
     TRAIN_STEP_NAME: standard_train_step

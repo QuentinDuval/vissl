@@ -44,7 +44,8 @@ config:
       INPUT_KEY_NAMES: ["patches", "images"] # keys produced by data that are `inputs' to the model
       MMAP_MODE: False
       COPY_TO_LOCAL_DISK: False
-      DATA_LIMIT: 500
+      DATA_LIMIT:
+        NB_SAMPLES: 500
       COPY_DESTINATION_DIR: /tmp/imagenet1k/
   TRAINER:
     TRAIN_STEP_NAME: standard_train_step

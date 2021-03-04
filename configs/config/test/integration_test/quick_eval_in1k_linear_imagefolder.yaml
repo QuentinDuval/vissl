@@ -27,7 +27,8 @@ config:
           std: [0.229, 0.224, 0.225]
       MMAP_MODE: True
       COPY_TO_LOCAL_DISK: False
-      DATA_LIMIT: 50
+      DATA_LIMIT:
+        NB_SAMPLES: 50
     TEST:
       DATA_SOURCES: [disk_folder]
       LABEL_SOURCES: [disk_folder]
@@ -44,7 +45,8 @@ config:
           std: [0.229, 0.224, 0.225]
       MMAP_MODE: True
       COPY_TO_LOCAL_DISK: False
-      DATA_LIMIT: 50
+      DATA_LIMIT:
+        NB_SAMPLES: 50
   METERS:
     name: accuracy_list_meter
     accuracy_list_meter:

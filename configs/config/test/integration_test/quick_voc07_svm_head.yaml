@@ -19,7 +19,8 @@ config:
       MMAP_MODE: False
       COPY_TO_LOCAL_DISK: True
       COPY_DESTINATION_DIR: /tmp/voc2007/
-      DATA_LIMIT: 50
+      DATA_LIMIT:
+        NB_SAMPLES: 50
     TEST:
       DATA_SOURCES: [disk_filelist]
       LABEL_SOURCES: [disk_filelist]
@@ -37,7 +38,8 @@ config:
       MMAP_MODE: False
       COPY_TO_LOCAL_DISK: True
       COPY_DESTINATION_DIR: /tmp/voc2007/
-      DATA_LIMIT: 50
+      DATA_LIMIT:
+        NB_SAMPLES: 50
   MODEL:
     FEATURE_EVAL_SETTINGS:
       EVAL_MODE_ON: True
