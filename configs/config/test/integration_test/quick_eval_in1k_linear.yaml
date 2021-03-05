@@ -28,7 +28,7 @@ config:
       MMAP_MODE: True
       COPY_TO_LOCAL_DISK: False
       DATA_LIMIT:
-        NB_SAMPLES: 50
+        NUM_SAMPLES: 50
     TEST:
       DATA_SOURCES: [disk_filelist]
       LABEL_SOURCES: [disk_filelist]
@@ -46,7 +46,7 @@ config:
       MMAP_MODE: True
       COPY_TO_LOCAL_DISK: False
       DATA_LIMIT:
-        NB_SAMPLES: 50
+        NUM_SAMPLES: 50
   METERS:
     name: accuracy_list_meter
     accuracy_list_meter:

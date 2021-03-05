@@ -231,14 +231,14 @@ class GenericSSLDataset(Dataset):
             if not self.data_limit.BALANCED:
                 self.sub_set = unbalanced_sub_sampling(
                     total_size=len(self.data_objs[0]),
-                    nb_samples=self.data_limit.NB_SAMPLES,
+                    nb_samples=self.data_limit.NUM_SAMPLES,
                     skip_samples=self.data_limit.SKIP_SAMPLES,
                     seed=self.data_limit.SEED
                 )
             else:
                 self.sub_set = balanced_sub_sampling(
                     labels=self.label_objs[0],
-                    nb_samples=self.data_limit.NB_SAMPLES,
+                    nb_samples=self.data_limit.NUM_SAMPLES,
                     skip_samples=self.data_limit.SKIP_SAMPLES,
                     seed=self.data_limit.SEED
                 )
@@ -264,7 +264,7 @@ class GenericSSLDataset(Dataset):
             self._load_labels()
             self._labels_init = True
 
-        if self.data_limit.NB_SAMPLES >= 0:
+        if self.data_limit.NUM_SAMPLES >= 0:
             self._init_subset()
             idx = self.sub_set[idx]
 
@@ -320,8 +320,8 @@ class GenericSSLDataset(Dataset):
         """
         Size of the dataset. Assumption made there is only one data source
         """
-        if self.data_limit.NB_SAMPLES >= 0:
-            return self.data_limit.NB_SAMPLES
+        if self.data_limit.NUM_SAMPLES >= 0:
+            return self.data_limit.NUM_SAMPLES
         return len(self.data_objs[source_idx])
 
     def get_image_paths(self):

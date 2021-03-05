@@ -37,7 +37,7 @@ config:
       COLLATE_FUNCTION: simclr_collator
       MMAP_MODE: True
       DATA_LIMIT:
-        NB_SAMPLES: 4
+        NUM_SAMPLES: 4
       DROP_LAST: True
       COPY_TO_LOCAL_DISK: False
   TRAINER:

@@ -254,7 +254,7 @@ config:
       DATA_LIMIT:
         SEED: 0
         SKIP_SAMPLES: 0
-        NB_SAMPLES: -1
+        NUM_SAMPLES: -1
         BALANCED: False
 
       # whether the data specified (whether file list or directory) should be copied locally
@@ -292,7 +292,7 @@ config:
       COLLATE_FUNCTION_PARAMS: {}
       DATA_LIMIT:
         SEED: 0
-        NB_SAMPLES: -1
+        NUM_SAMPLES: -1
         BALANCED: False
       DATASET_NAMES: ["imagenet1k_folder"]
       COPY_TO_LOCAL_DISK: False
