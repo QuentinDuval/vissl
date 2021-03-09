@@ -54,6 +54,9 @@ config:
   TRAINER:
     TRAIN_STEP_NAME: standard_train_step
   MODEL:
+    FEATURE_EVAL_SETTINGS:
+      EVAL_MODE_ON: True
+      EVAL_TRUNK_AND_HEAD: False
     TRUNK:
       NAME: resnet
       TRUNK_PARAMS:
@@ -66,30 +69,29 @@ config:
     WEIGHTS_INIT:
       PARAMS_FILE: "specify model weights"
       STATE_DICT_KEY_NAME: classy_state_dict
-      SKIP_LAYERS: ["num_batches_tracked", "heads.0.clf"]
       APPEND_PREFIX: trunk.
   LOSS:
     name: cross_entropy_multiple_output_single_target
     cross_entropy_multiple_output_single_target:
       ignore_index: -1
   OPTIMIZER:
-      name: sgd
-      weight_decay: 0.000
-      momentum: 0.9
-      num_epochs: 105
-      nesterov: True
-      regularize_bn: False
-      regularize_bias: True
-      param_schedulers:
-        lr:
-          auto_lr_scaling:
-            auto_scale: true
-            base_value: 0.1
-            base_lr_batch_size: 256
-          values: [0.1, 0.01, 0.001, 0.0001, 0.00001]
-          milestones: [30, 60, 90, 100]
-          name: multistep
-          update_interval: epoch
+    name: sgd
+    weight_decay: 0.0005
+    momentum: 0.9
+    num_epochs: 90
+    nesterov: True
+    regularize_bn: False
+    regularize_bias: True
+    param_schedulers:
+      lr:
+        auto_lr_scaling:
+          auto_scale: true
+          base_value: 0.1
+          base_lr_batch_size: 256
+        values: [0.1, 0.01, 0.001]
+        milestones: [30, 60]
+        name: multistep
+        update_interval: epoch
   DISTRIBUTED:
     BACKEND: nccl
     NUM_NODES: 1
