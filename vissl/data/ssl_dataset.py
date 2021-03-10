@@ -7,7 +7,7 @@ from classy_vision.generic.distributed_util import get_world_size
 from fvcore.common.file_io import PathManager
 from torch.utils.data import Dataset
 from vissl.data import dataset_catalog
-from vissl.data.data_helper import unbalanced_sub_sampling, balanced_sub_sampling
+from vissl.data.data_helper import balanced_sub_sampling, unbalanced_sub_sampling
 from vissl.data.ssl_transforms import get_transform
 from vissl.utils.env import get_machine_local_and_dist_rank
 from vissl.utils.hydra_config import AttrDict
@@ -233,14 +233,14 @@ class GenericSSLDataset(Dataset):
                     total_size=len(self.data_objs[0]),
                     nb_samples=self.data_limit.NUM_SAMPLES,
                     skip_samples=self.data_limit.SKIP_SAMPLES,
-                    seed=self.data_limit.SEED
+                    seed=self.data_limit.SEED,
                 )
             else:
                 self.sub_set = balanced_sub_sampling(
                     labels=self.label_objs[0],
                     nb_samples=self.data_limit.NUM_SAMPLES,
                     skip_samples=self.data_limit.SKIP_SAMPLES,
-                    seed=self.data_limit.SEED
+                    seed=self.data_limit.SEED,
                 )
             self._subset_initialized = True
 
@@ -266,13 +266,15 @@ class GenericSSLDataset(Dataset):
 
         if self.data_limit.NUM_SAMPLES >= 0:
             self._init_subset()
-            idx = self.sub_set[idx]
+            subset_idx = self.sub_set[idx]
+        else:
+            subset_idx = idx
 
         # TODO: this doesn't yet handle the case where the length of datasets
         # could be different.
         item = {"data": [], "data_valid": [], "data_idx": []}
-        for source in self.data_objs:
-            data, valid = source[idx]
+        for data_source in self.data_objs:
+            data, valid = data_source[subset_idx]
             item["data"].append(data)
             item["data_idx"].append(idx)
             item["data_valid"].append(1 if valid else -1)
@@ -288,11 +290,11 @@ class GenericSSLDataset(Dataset):
         # to its functionality.
         if (len(self.label_objs) > 0) or self.label_type == "standard":
             item["label"] = []
-            for source in self.label_objs:
-                if isinstance(source, list):
-                    lbl = [entry[idx] for entry in source]
+            for label_source in self.label_objs:
+                if isinstance(label_source, list):
+                    lbl = [entry[subset_idx] for entry in label_source]
                 else:
-                    lbl = _convert_lbl_to_long(source[idx])
+                    lbl = _convert_lbl_to_long(label_source[subset_idx])
                 item["label"].append(lbl)
         elif self.label_type == "sample_index":
             item["label"] = []
