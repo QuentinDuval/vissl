@@ -36,7 +36,8 @@ config:
           std: [0.229, 0.224, 0.225]
       COLLATE_FUNCTION: moco_collator
       MMAP_MODE: True
-      DATA_LIMIT: 4
+      DATA_LIMIT:
+        NUM_SAMPLES: 4
       DROP_LAST: True
       COPY_TO_LOCAL_DISK: False
   TRAINER:

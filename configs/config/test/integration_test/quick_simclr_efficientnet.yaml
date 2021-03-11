@@ -40,7 +40,8 @@ config:
       MMAP_MODE: True
       COPY_TO_LOCAL_DISK: False
       COPY_DESTINATION_DIR: /tmp/imagenet1k/
-      DATA_LIMIT: 250
+      DATA_LIMIT:
+        NUM_SAMPLES: 250
       DROP_LAST: True
   TRAINER:
     TRAIN_STEP_NAME: standard_train_step
