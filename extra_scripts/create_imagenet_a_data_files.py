@@ -33,14 +33,15 @@ def get_argument_parser():
         action="store_const",
         const=True,
         default=False,
-        help="To download the original dataset and decompress it in the input folder",
+        help="To download the original dataset in the input folder",
     )
     return parser
 
 
 def download_dataset(root: str):
     """
-    Download the Imagenet-R dataset archive and expand it in the folder provided as parameter
+    Download the Imagenet-R dataset archive and expand it
+    in the folder provided as parameter
     """
     URL = "https://people.eecs.berkeley.edu/~hendrycks/imagenet-a.tar"
     download_and_extract_archive(url=URL, download_root=root)
@@ -50,11 +51,13 @@ def create_imagenet_test_files(
     input_path: str, output_path: str, target_mappings: Dict[int, int]
 ):
     """
-    Create a test split for ImageNet, by reading the image folder in the 'input_path' and mapping
-    its targets to the targets of imagenet using 'target_mappings'
+    Create a test split for ImageNet, by reading the image folder in the
+    'input_path' and mapping its targets to the targets of imagenet
+    using the 'target_mappings' dictionary
     """
 
-    # Map the images of the image folder to their corresponding targets in ImageNet
+    # Map the images of the image folder to their corresponding targets
+    # in ImageNet
     image_paths = []
     image_labels = []
     imagenet_r = datasets.ImageFolder(root=input_path, loader=lambda x: x)
@@ -64,8 +67,8 @@ def create_imagenet_test_files(
 
     # Save the these lists in the disk_filelist format
     os.makedirs(output_path, exist_ok=True)
-    img_info_out_path = os.path.join(output_path, f"test_images.npy")
-    label_info_out_path = os.path.join(output_path, f"test_labels.npy")
+    img_info_out_path = os.path.join(output_path, "test_images.npy")
+    label_info_out_path = os.path.join(output_path, "test_labels.npy")
     np.save(img_info_out_path, np.array(image_paths))
     np.save(label_info_out_path, np.array(image_labels))
 
@@ -278,7 +281,10 @@ if __name__ == "__main__":
     Example usage:
 
     ```
-    python extra_scripts/create_imagenet_a_data_files.py -i /path/to/imagenet_a/ -o /output_path/to/imagenet_a -d
+    python extra_scripts/create_imagenet_a_data_files.py
+        -i /path/to/imagenet_a/
+        -o /output_path/to/imagenet_a
+        -d
     ```
     """
     args = get_argument_parser().parse_args()

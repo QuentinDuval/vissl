@@ -30,14 +30,15 @@ def get_argument_parser():
         action="store_const",
         const=True,
         default=False,
-        help="To download the original dataset and decompress it in the input folder",
+        help="To download the original in the input folder",
     )
     return parser
 
 
 def download_dataset(root: str):
     """
-    Download the Imagenet-R dataset archive and expand it in the folder provided as parameter
+    Download the Imagenet-R dataset archive and expand it in the folder
+    provided as parameter
     """
     URL = "https://people.eecs.berkeley.edu/~hendrycks/imagenet-r.tar"
     download_and_extract_archive(url=URL, download_root=root)
@@ -256,7 +257,10 @@ if __name__ == "__main__":
     Example usage:
 
     ```
-    python extra_scripts/create_imagenet_r_data_files.py -i /path/to/imagenet_r/ -o /output_path/to/imagenet_r -d
+    python extra_scripts/create_imagenet_r_data_files.py
+        -i /path/to/imagenet_r/
+        -o /output_path/to/imagenet_r
+        -d
     ```
     """
     args = get_argument_parser().parse_args()
