@@ -65,7 +65,7 @@ def run_black_on(paths: Sequence[str], check_only: bool):
     options = "--check" if check_only else ""
     for path in paths:
         if _is_correct_path(path):
-            _run_command(f"black {options} {path}")
+            _run_command(f"black --quiet {options} {path}")
 
 
 def run_sort_include_on(paths: Sequence[str], check_only: bool):
