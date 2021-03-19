@@ -61,16 +61,20 @@ def _is_correct_path(path: str):
     return os.path.isdir(path) or path.endswith(".py")
 
 
-def run_black_on(paths: Sequence[str]):
+def run_black_on(paths: Sequence[str], check_only: bool):
+    options = "--check" if check_only else ""
     for path in paths:
         if _is_correct_path(path):
-            _run_command(f"black {path}")
+            _run_command(f"black {options} {path}")
 
 
-def run_sort_include_on(paths: Sequence[str]):
+def run_sort_include_on(paths: Sequence[str], check_only: bool):
+    options = "-c" if check_only else ""
     for path in paths:
-        if _is_correct_path(path):
-            _run_command(f"isort {path}")
+        if os.path.isdir(path):
+            _run_command(f"isort {options} -sp {path}")
+        elif path.endswith(".py"):
+            _run_command(f"isort {options} {path}")
 
 
 def run_flake8_on(paths: Sequence[str]):
@@ -90,13 +94,33 @@ if __name__ == "__main__":
     parser.add_argument(
         "-f", "--flake", action="store_const", const=True, default=False
     )
+    parser.add_argument(
+        "-c",
+        "--check",
+        action="store_const",
+        const=True,
+        default=False,
+        help="Only check (no correction)",
+    )
     parser.add_argument("-s", "--sort", action="store_const", const=True, default=False)
+    parser.add_argument(
+        "-r",
+        "--repo",
+        action="store_const",
+        const=True,
+        default=False,
+        help="Running the linter on the whole repository",
+    )
     args = parser.parse_args()
 
-    impacted_paths = get_list_of_impacted_files(os.getcwd())
+    if not args.repo:
+        impacted_paths = get_list_of_impacted_files(os.getcwd())
+    else:
+        impacted_paths = ["vissl", "extra_scripts", "tools"]
+
     if args.all or args.sort:
-        run_sort_include_on(impacted_paths)
+        run_sort_include_on(impacted_paths, check_only=args.check)
     if args.all or args.black:
-        run_black_on(impacted_paths)
+        run_black_on(impacted_paths, check_only=args.check)
     if args.all or args.flake:
         run_flake8_on(impacted_paths)
