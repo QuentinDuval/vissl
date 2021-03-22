@@ -18,7 +18,7 @@ config:
       DATASET_NAMES: [small_norb_elevation_folder]
       DATA_LIMIT: 1000
       DATA_LIMIT_SAMPLING:
-        BALANCED: True
+        IS_BALANCED: True
       BATCHSIZE_PER_REPLICA: 32
       TRANSFORMS:
         - name: Resize
