@@ -119,9 +119,7 @@ class AnyStage(nn.Sequential):
         super().__init__()
         self.stage_depth = 0
 
-        fsdp_config = {
-            "wrapper_cls": fsdp_wrapper,
-        }
+        fsdp_config = {"wrapper_cls": fsdp_wrapper}
         fsdp_config.update(model_config.FSDP_CONFIG)
         for i in range(depth):
             # Make a block and move it to cuda since shard-as-we-build of FSDP needs
