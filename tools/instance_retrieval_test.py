@@ -12,13 +12,12 @@ import torch.nn.functional as F
 import torchvision
 from classy_vision.generic.util import copy_model_to_gpu
 from fvcore.common.file_io import PathManager
-from hydra.experimental import compose, initialize_config_module
 from vissl.models import build_model
 from vissl.utils.checkpoint import init_model_from_weights
 from vissl.utils.env import set_env_vars
 from vissl.utils.hydra_config import (
     AttrDict,
-    convert_to_attrdict,
+    HydraConfig,
     is_hydra_available,
     print_cfg,
 )
@@ -493,9 +492,7 @@ def main(args: Namespace, config: AttrDict):
 
 
 def hydra_main(overrides: List[Any]):
-    with initialize_config_module(config_module="vissl.config"):
-        cfg = compose("defaults", overrides=overrides)
-    args, config = convert_to_attrdict(cfg)
+    args, config = HydraConfig.from_command_line(overrides)
     main(args, config)
 
 

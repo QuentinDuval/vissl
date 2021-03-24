@@ -3,6 +3,7 @@
 import logging
 
 from vissl.config.attr_dict import AttrDict
+from vissl.config.completion import auto_complete_configuration
 
 
 # When to do version bump:
