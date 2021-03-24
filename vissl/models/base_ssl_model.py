@@ -7,11 +7,11 @@ import torch
 import torch.nn as nn
 from classy_vision.models import ClassyModel, register_model
 from fairscale.nn.data_parallel import FullyShardedDataParallel as FSDP
-from vissl.models.heads import get_model_head
-from vissl.models.model_helpers import (
+from vissl.config.utils import (
     get_trunk_output_feature_names,
     is_feature_extractor_model,
 )
+from vissl.models.heads import get_model_head
 from vissl.models.trunks import get_model_trunk
 from vissl.models.trunks.feature_extractor import FeatureExtractorModel
 from vissl.utils.env import get_machine_local_and_dist_rank
