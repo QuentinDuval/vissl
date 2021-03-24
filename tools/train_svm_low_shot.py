@@ -10,16 +10,15 @@ from extra_scripts.create_low_shot_samples import (
     generate_low_shot_samples,
     generate_places_low_shot_samples,
 )
-from hydra.experimental import compose, initialize_config_module
+from vissl.config.utils import get_trunk_output_feature_names
 from vissl.data import dataset_catalog
 from vissl.hooks import default_hook_generator
-from vissl.models.model_helpers import get_trunk_output_feature_names
 from vissl.utils.checkpoint import get_checkpoint_folder
 from vissl.utils.distributed_launcher import launch_distributed
 from vissl.utils.env import set_env_vars
 from vissl.utils.hydra_config import (
     AttrDict,
-    convert_to_attrdict,
+    HydraConfig,
     is_hydra_available,
     print_cfg,
 )
@@ -240,9 +239,7 @@ def main(args: Namespace, cfg: AttrDict):
 
 
 def hydra_main(overrides: List[Any]):
-    with initialize_config_module(config_module="vissl.config"):
-        cfg = compose("defaults", overrides=overrides)
-    args, config = convert_to_attrdict(cfg)
+    args, config = HydraConfig.from_command_line(overrides)
     main(args, config)
 
 
