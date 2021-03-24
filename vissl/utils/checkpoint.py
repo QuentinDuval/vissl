@@ -315,7 +315,7 @@ def check_model_compatibilty(config: AttrDict, state_dict: Dict[str, Any]):
         config (AttrDict): root config
         state_dict (Dict[str, Any]): state dict that should be checked for compatibility
     """
-    from vissl.models import is_feature_extractor_model
+    from vissl.config.utils import is_feature_extractor_model
 
     trunk_append_prefix, heads_append_prefix = "trunk._feature_blocks.", "heads."
     if is_feature_extractor_model(config.MODEL):
@@ -351,7 +351,7 @@ def get_checkpoint_model_state_dict(config: AttrDict, state_dict: Dict[str, Any]
         state_dict (Dict): vissl state_dict with layer names matching compatible with
                            vissl model. Hence this state_dict can be loaded directly.
     """
-    from vissl.models import is_feature_extractor_model
+    from vissl.config.utils import is_feature_extractor_model
 
     classy_state_dict = state_dict["base_model"]["model"]
     trunk_append_prefix, heads_append_prefix = "trunk.", "heads."
