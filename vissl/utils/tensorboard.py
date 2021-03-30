@@ -43,7 +43,7 @@ def get_tensorboard_dir(config):
     """
     tensorboard_dir = os.path.join(
         config.HOOKS.TENSORBOARD_SETUP.LOG_DIR,
-        config.HOOKS.TENSORBOARD_SETUP.EXPERIMENT_LOG_DIR
+        config.HOOKS.TENSORBOARD_SETUP.EXPERIMENT_LOG_DIR,
     )
     if config.DISTRIBUTED.NUM_NODES > 1 and config.CHECKPOINT.APPEND_DISTR_RUN_ID:
         tensorboard_dir = f"{tensorboard_dir}/{config.DISTRIBUTED.RUN_ID}"
@@ -74,4 +74,5 @@ def get_tensorboard_hook(cfg):
         log_params=cfg.HOOKS.TENSORBOARD_SETUP.LOG_PARAMS,
         log_params_every_n_iterations=cfg.HOOKS.TENSORBOARD_SETUP.LOG_PARAMS_EVERY_N_ITERS,
         log_params_gradients=cfg.HOOKS.TENSORBOARD_SETUP.LOG_PARAMS_GRADIENTS,
+        log_activation_statistics=cfg.MONITORING.MONITOR_ACTIVATION_STATISTICS,
     )
