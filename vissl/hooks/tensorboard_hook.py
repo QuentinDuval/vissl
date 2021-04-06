@@ -11,7 +11,7 @@ from vissl.utils.activation_statistics import (
     ActivationStatisticsMonitor,
     ActivationStatisticsObserver,
 )
-
+from vissl.utils.memory_tracking import MemoryMonitor
 
 try:
     from torch.utils.tensorboard import SummaryWriter  # noqa F401
@@ -96,6 +96,10 @@ class SSLTensorboardHook(ClassyHook):
                 log_frequency=self.log_activation_statistics,
                 sample_feature_map=True,
             )
+
+        # TODO - use configuration to enable
+        self.memory_watcher = MemoryMonitor()
+
         logging.info(
             f"Tensorboard config: log_params: {self.log_params}, "
             f"log_params_freq: {self.log_params_every_n_iterations}, "
@@ -111,12 +115,19 @@ class SSLTensorboardHook(ClassyHook):
             self.activation_watcher.monitor(task.base_model)
             self.activation_watcher.set_iteration(task.iteration)
 
+        # TODO - use configuration to enable
+        self.memory_watcher.monitor(task.base_model)
+        self.memory_watcher.prepare()
+
     def on_end(self, task: "tasks.ClassyTask") -> None:
         """
         Called at the end of training.
         """
         if self.log_activation_statistics and is_primary():
             self.activation_watcher.reset()
+
+        # TODO - use configuration to enable
+        self.memory_watcher.reset()
 
     def on_forward(self, task: "tasks.ClassyTask") -> None:
         """
@@ -224,6 +235,11 @@ class SSLTensorboardHook(ClassyHook):
             return
 
         iteration = task.iteration
+
+        # TODO - remove that and produce images and metrics instead
+        print("MEMORY:", self.memory_watcher.summary)
+        image = self.memory_watcher.show_plots(capture=True)
+        image.save(f"graph_iter{iteration}.jpg")
 
         if (
             self.log_params_every_n_iterations > 0
